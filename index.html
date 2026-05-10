@@ -126,6 +126,62 @@ const MAJORS = [
     theme:{ key:'open', eyebrow:'2025 · LAST YEAR', accent:'#f5b842', gradient:'linear-gradient(135deg,#161210 0%,#08070a 100%)' } },
 ];
 
+// FedEx Cup standings snapshot. Update on request (no live API hookup).
+// Source: pgatour.com/fedexcup/rankings, ~The Players Championship 2026 R1.
+const FEDEX_CUP_2026_AS_OF = 'The Players Championship 2026 · Round 1';
+const FEDEX_CUP_2026 = [
+  { rank:1,  name:'Collin Morikawa',     points:1182 },
+  { rank:2,  name:'Akshay Bhatia',       points:1144 },
+  { rank:3,  name:'Jacob Bridgeman',     points:1123 },
+  { rank:4,  name:'Chris Gotterup',      points:1120 },
+  { rank:5,  name:'Scottie Scheffler',   points:1079 },
+  { rank:6,  name:'Min Woo Lee',         points:755 },
+  { rank:7,  name:'Jake Knapp',          points:680 },
+  { rank:8,  name:'Nico Echavarria',     points:664 },
+  { rank:9,  name:'Si Woo Kim',          points:627 },
+  { rank:10, name:'Ryan Gerard',         points:623 },
+  { rank:11, name:'Hideki Matsuyama',    points:611 },
+  { rank:12, name:'Cameron Young',       points:573 },
+  { rank:13, name:'Daniel Berger',       points:570 },
+  { rank:14, name:'Sepp Straka',         points:522 },
+  { rank:15, name:'Adam Scott',          points:521 },
+  { rank:16, name:'Justin Rose',         points:520 },
+  { rank:17, name:'Sahith Theegala',     points:514 },
+  { rank:18, name:'Tommy Fleetwood',     points:502 },
+  { rank:19, name:'Kurt Kitayama',       points:489 },
+  { rank:20, name:'Ryo Hisatsune',       points:476 },
+  { rank:21, name:'Rory McIlroy',        points:460 },
+  { rank:22, name:'Pierceson Coody',     points:459 },
+  { rank:23, name:'Ricky Castillo',      points:451 },
+  { rank:24, name:'Ludvig Åberg',        points:410 },
+  { rank:25, name:'Russell Henley',      points:403 },
+  { rank:26, name:'Shane Lowry',         points:397 },
+  { rank:27, name:'Rickie Fowler',       points:334 },
+  { rank:28, name:'Harry Hall',          points:324 },
+  { rank:29, name:'Aldrich Potgieter',   points:308 },
+  { rank:30, name:'Patrick Rodgers',     points:307 },
+  { rank:31, name:'Matt McCarty',        points:301 },
+  { rank:32, name:'Jordan Spieth',       points:294 },
+  { rank:33, name:'Nicolai Højgaard',    points:290 },
+  { rank:34, name:'Ryan Fox',            points:287 },
+  { rank:35, name:'Maverick McNealy',    points:286 },
+  { rank:36, name:'Austin Smotherman',   points:283 },
+  { rank:37, name:'Xander Schauffele',   points:276 },
+  { rank:38, name:'Sam Burns',           points:275 },
+  { rank:39, name:'Robert MacIntyre',    points:247 },
+  { rank:40, name:'Jason Day',           points:240 },
+  { rank:41, name:'Taylor Moore',        points:238 },
+  { rank:42, name:'Sam Stevens',         points:237 },
+  { rank:43, name:'Matt Fitzpatrick',    points:229 },
+  { rank:44, name:'Harris English',      points:212 },
+  { rank:45, name:'Keith Mitchell',      points:212 },
+  { rank:46, name:'Andrew Putnam',       points:200 },
+  { rank:47, name:'Michael Thorbjornsen',points:200 },
+  { rank:48, name:'Nick Taylor',         points:199 },
+  { rank:49, name:'Viktor Hovland',      points:188 },
+  { rank:50, name:'Tom Hoge',            points:175 },
+];
+
 const DEFAULT_POOL = ['Ben','Jackson Z','Jayton','Carter','Corbin','Evan','John','Alex','Jack','Mason','Cole','Dresden','Jacob','Mitch'];
 
 const MASTERS_POOL = [...DEFAULT_POOL];
@@ -844,6 +900,7 @@ function Navbar({ page, onNav, activeMajorId }) {
   const items = [
     { id:'home', label:'Home' },
     ...MAJORS.map(m => ({ id:m.id, label:m.short, isActive: m.id === activeMajorId })),
+    { id:'standings', label:'Standings' },
     { id:'admin', label:'Admin' },
   ];
   return (
@@ -1451,6 +1508,87 @@ function RandomizerWheel({ available, currentDrafter, onAssign }) {
 }
 
 // ============================================================================
+// STANDINGS PAGE — FedEx Cup snapshot
+// ============================================================================
+
+function StandingsPage({ onNav }) {
+  const [filter, setFilter] = useState('');
+  const top = FEDEX_CUP_2026[0];
+  const filtered = filter ? FEDEX_CUP_2026.filter(r => r.name.toLowerCase().includes(filter.toLowerCase())) : FEDEX_CUP_2026;
+  return (
+    <main className="animate-fade-in">
+      <section className="hero-cinema theme-pga">
+        <div className="absolute -bottom-1 left-0 right-0 h-16 pointer-events-none" style={{background:'linear-gradient(180deg, transparent 0%, var(--bg-0) 100%)'}}/>
+        <div className="max-w-6xl mx-auto px-4 py-6 sm:py-14 relative">
+          <button onClick={() => onNav('home')} className="text-xs uppercase tracking-widest font-semibold flex items-center gap-1.5 transition" style={{color:'var(--text-2)'}}
+            onMouseEnter={(e)=> e.currentTarget.style.color='var(--text-1)'} onMouseLeave={(e)=> e.currentTarget.style.color='var(--text-2)'}>← HOME</button>
+          <div className="font-ticker text-[11px] mb-3 mt-4 flex items-center gap-2.5" style={{color:'var(--accent-green)'}}>
+            <span className="inline-block w-6 h-px" style={{background:'currentColor'}}/>2026 SEASON · PGA TOUR
+          </div>
+          <h1 className="font-headline text-4xl sm:text-7xl uppercase leading-[0.9] tracking-tight" style={{color:'var(--text-1)'}}>FedEx Cup</h1>
+          <div className="mt-3 text-sm flex flex-wrap items-center gap-x-3 gap-y-1" style={{color:'var(--text-2)'}}>
+            <span>As of {FEDEX_CUP_2026_AS_OF}</span>
+            <span style={{color:'var(--text-3)'}}>·</span><span>Top {FEDEX_CUP_2026.length}</span>
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-5 animate-fade-up">
+        <Card className="p-4 sm:p-5" style={{background:'linear-gradient(135deg, rgba(245,184,66,0.10) 0%, rgba(0,0,0,0) 70%), var(--surface)', borderColor:'rgba(245,184,66,0.25)'}}>
+          <div className="flex items-center gap-4">
+            <Headshot name={top.name} size="xl" ring/>
+            <div className="min-w-0 flex-1">
+              <div className="font-ticker text-[11px]" style={{color:'var(--accent-gold)'}}>FEDEXCUP LEADER</div>
+              <div className="font-headline text-2xl sm:text-5xl uppercase mt-0.5 leading-tight truncate" style={{color:'var(--text-1)'}}>{top.name}</div>
+              <div className="text-[11px] sm:text-xs mt-1" style={{color:'var(--text-2)'}}>{top.points.toLocaleString()} points</div>
+            </div>
+            <div className="text-right flex-shrink-0">
+              <div className="font-mono-num text-4xl sm:text-5xl leading-none gold-text">#1</div>
+            </div>
+          </div>
+        </Card>
+
+        <div className="flex gap-2">
+          <input value={filter} onChange={e => setFilter(e.target.value)} placeholder="Search player…" className="flex-1"/>
+          {filter && <Button variant="ghost" onClick={() => setFilter('')}>Clear</Button>}
+        </div>
+
+        <Card className="overflow-hidden">
+          <div className="grid grid-cols-12 px-3 py-2.5 font-ticker text-[11px]" style={{background:'rgba(0,0,0,0.4)', color:'var(--text-2)', borderBottom:'1px solid var(--border)'}}>
+            <div className="col-span-2">RK</div>
+            <div className="col-span-7">PLAYER</div>
+            <div className="col-span-3 text-right">POINTS</div>
+          </div>
+          {filtered.length === 0 ? (
+            <div className="px-3 py-8 text-center text-sm" style={{color:'var(--text-3)'}}>No players match.</div>
+          ) : (
+            <div>
+              {filtered.map(r => (
+                <div key={r.name} className="grid grid-cols-12 items-center px-3 py-2 text-sm transition-colors" style={{borderBottom:'1px solid var(--border)'}}
+                  onMouseEnter={(e)=> e.currentTarget.style.background='rgba(255,255,255,0.025)'} onMouseLeave={(e)=> e.currentTarget.style.background='transparent'}>
+                  <div className="col-span-2 flex items-center gap-1.5">
+                    {r.rank<=3 ? <Medal rank={r.rank}/> : <span className="font-mono-num text-sm pl-1" style={{color:'var(--text-2)'}}>{r.rank}</span>}
+                  </div>
+                  <div className="col-span-7 min-w-0 flex items-center gap-2">
+                    <Headshot name={r.name} size="sm"/>
+                    <div className="truncate font-medium" style={{color:'var(--text-1)'}}>{r.name}</div>
+                  </div>
+                  <div className="col-span-3 text-right">
+                    <div className="font-mono-num text-base" style={{color:'var(--text-1)'}}>{r.points.toLocaleString()}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </Card>
+
+        <div className="text-[11px] text-center" style={{color:'var(--text-3)'}}>Snapshot — ask Claude to refresh anytime.</div>
+      </section>
+    </main>
+  );
+}
+
+// ============================================================================
 // MAJOR PAGE / TABS / VIEWS
 // ============================================================================
 
@@ -1800,7 +1938,7 @@ function parseHash() {
   const h = (window.location.hash || '').replace(/^#\/?/, '');
   if (!h) return { page:'home', subTab:null };
   const parts = h.split('/').filter(Boolean);
-  if (parts[0] === 'admin' || parts[0] === 'home') return { page:parts[0], subTab:null };
+  if (parts[0] === 'admin' || parts[0] === 'home' || parts[0] === 'standings') return { page:parts[0], subTab:null };
   if (MAJORS.find(m => m.id === parts[0])) return { page:parts[0], subTab: parts[1]==='draft'?'draft':'live' };
   return { page:'home', subTab:null };
 }
@@ -1816,6 +1954,7 @@ function App() {
     let hash = '';
     if (page === 'home') hash = '';
     else if (page === 'admin') hash = '/admin';
+    else if (page === 'standings') hash = '/standings';
     else if (MAJORS.find(m=>m.id===page)) hash = '/'+page+(subTab?'/'+subTab:'');
     setRoute({ page, subTab: subTab || (MAJORS.find(m=>m.id===page)?'live':null) });
     window.location.hash = hash;
@@ -1838,6 +1977,7 @@ function App() {
       <div className="flex-1">
         {page === 'home' && <HomePage state={state} scores={scores} onNav={nav}/>}
         {page === 'admin' && <AdminPanel state={state} dispatch={dispatch} onNav={nav}/>}
+        {page === 'standings' && <StandingsPage onNav={nav}/>}
         {MAJORS.find(m=>m.id===page) && <MajorPage majorId={page} subTab={subTab} state={state} scores={scores} dispatch={dispatch} onNav={nav}/>}
       </div>
       <footer style={{borderTop:'1px solid var(--border)', background:'rgba(0,0,0,0.3)'}}>
