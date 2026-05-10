@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Major Pool · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['"Inter Tight"', 'Inter', 'sans-serif'],
+        ticker: ['"Bebas Neue"', '"Inter Tight"', 'sans-serif'],
+      },
+      colors: {
+        ink: { 0:'#0a0e13', 1:'#0f1319', 2:'#161c25', 3:'#1a212c', 4:'#232a36', 5:'#2c3441' },
+        fairway: { 300:'#86efac', 400:'#6ee7a7', 500:'#4ade80', 600:'#22c55e', 700:'#16a34a', 800:'#166534', 900:'#14532d', 950:'#08160c' },
+        gold: { 300:'#fbd38d', 400:'#f5b842', 500:'#d97706', 600:'#b45309' },
+      }
+    }
+  }
+}
+</script>
+<style>
+:root {
+  --bg-0:#0a0e13; --bg-1:#0f1319; --bg-2:#161c25;
+  --surface:#1a212c; --surface-2:#232a36;
+  --border:rgba(255,255,255,0.06); --border-strong:rgba(255,255,255,0.12);
+  --text-1:#ebe9e1; --text-2:#9da3ad; --text-3:#5d646e;
+  --accent-green:#4ade80; --accent-green-2:#22c55e;
+  --accent-gold:#f5b842; --accent-gold-2:#d97706;
+  --score-good:#4ade80; --score-bad:#f87171; --score-neutral:#94a3b8;
+}
+html, body { background:var(--bg-0); color:var(--text-1); font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; }
+body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background-image:radial-gradient(900px 600px at 80% -10%, rgba(74,222,128,0.06) 0%, transparent 60%), radial-gradient(800px 500px at -10% 110%, rgba(245,184,66,0.05) 0%, transparent 60%), linear-gradient(180deg, #0c1117 0%, #0a0e13 50%, #080b10 100%); }
+#root { position:relative; z-index:1; }
+.font-display { font-family:'Inter Tight','Inter',sans-serif; font-weight:800; letter-spacing:-0.025em; }
+.font-headline { font-family:'Inter Tight',sans-serif; font-weight:900; letter-spacing:-0.04em; line-height:0.95; }
+.font-ticker { font-family:'Bebas Neue','Inter Tight',sans-serif; font-weight:400; letter-spacing:0.06em; }
+.font-mono-num { font-family:'Inter Tight',sans-serif; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+.tabular-nums { font-variant-numeric:tabular-nums; }
+.surface { background:linear-gradient(180deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0) 100%), var(--surface); border:1px solid var(--border); border-radius:12px; }
+.surface-2 { background:linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%), var(--surface-2); border:1px solid var(--border); border-radius:12px; }
+.glass { background:rgba(20,26,35,0.55); border:1px solid rgba(255,255,255,0.07); border-radius:12px; backdrop-filter:blur(14px) saturate(140%); -webkit-backdrop-filter:blur(14px) saturate(140%); }
+.glass-strong { background:rgba(15,19,25,0.78); border-bottom:1px solid var(--border); backdrop-filter:blur(20px) saturate(140%); -webkit-backdrop-filter:blur(20px) saturate(140%); }
+.hero-cinema { position:relative; background:var(--bg-1); overflow:hidden; }
+.hero-cinema::before { content:''; position:absolute; inset:0; background-image:radial-gradient(80% 60% at 80% 10%, var(--theme-glow,rgba(74,222,128,0.18)) 0%, transparent 60%), radial-gradient(70% 50% at 0% 100%, var(--theme-glow-2,rgba(245,184,66,0.10)) 0%, transparent 55%), var(--theme-base,linear-gradient(135deg,#0d1218 0%,#080b10 100%)); pointer-events:none; }
+.hero-cinema::after { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(115deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 8px), radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1.5px); background-size:auto, 4px 4px; pointer-events:none; }
+.theme-masters { --theme-glow:rgba(74,222,128,0.20); --theme-glow-2:rgba(245,184,66,0.14); --theme-base:linear-gradient(135deg,#0a1d12 0%,#04100a 100%); --theme-accent:#4ade80; }
+.theme-pga { --theme-glow:rgba(96,165,250,0.18); --theme-glow-2:rgba(248,113,113,0.10); --theme-base:linear-gradient(135deg,#0c1428 0%,#050a16 100%); --theme-accent:#60a5fa; }
+.theme-usopen { --theme-glow:rgba(96,165,250,0.18); --theme-glow-2:rgba(248,113,113,0.10); --theme-base:linear-gradient(135deg,#0a1228 0%,#04081a 100%); --theme-accent:#60a5fa; }
+.theme-open { --theme-glow:rgba(245,184,66,0.16); --theme-glow-2:rgba(96,165,250,0.10); --theme-base:linear-gradient(135deg,#161210 0%,#08070a 100%); --theme-accent:#f5b842; }
+.text-score-good { color:var(--score-good); } .text-score-bad { color:var(--score-bad); } .text-score-neutral { color:var(--score-neutral); }
+.btn-base { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:8px; font-weight:600; font-size:14px; padding:10px 16px; transition:all 180ms ease-out; border:1px solid transparent; letter-spacing:-0.005em; }
+.btn-primary { background:linear-gradient(180deg, #2c3441 0%, #1d242f 100%); color:var(--text-1); border-color:var(--border-strong); box-shadow:0 1px 0 rgba(255,255,255,0.04) inset, 0 4px 14px rgba(0,0,0,0.4); }
+.btn-primary:hover:not(:disabled) { background:linear-gradient(180deg, #353d4b 0%, #232b37 100%); border-color:rgba(255,255,255,0.18); }
+.btn-accent { background:linear-gradient(180deg, var(--accent-green) 0%, var(--accent-green-2) 100%); color:#051611; border-color:rgba(0,0,0,0.2); box-shadow:0 1px 0 rgba(255,255,255,0.25) inset, 0 8px 24px rgba(74,222,128,0.18); font-weight:700; }
+.btn-accent:hover:not(:disabled) { filter:brightness(1.08); box-shadow:0 1px 0 rgba(255,255,255,0.25) inset, 0 10px 28px rgba(74,222,128,0.30); }
+.btn-ghost { background:transparent; color:var(--text-2); border-color:transparent; }
+.btn-ghost:hover:not(:disabled) { background:rgba(255,255,255,0.04); color:var(--text-1); }
+.btn-danger { background:linear-gradient(180deg, #db4646 0%, #a82828 100%); color:#fff; border-color:rgba(0,0,0,0.2); }
+.btn-danger:hover:not(:disabled) { filter:brightness(1.08); }
+.pill { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; letter-spacing:0.02em; line-height:1.5; }
+.pill-stone { background:rgba(255,255,255,0.05); color:var(--text-2); border:1px solid var(--border); }
+.pill-green { background:rgba(74,222,128,0.10); color:var(--accent-green); border:1px solid rgba(74,222,128,0.20); }
+.pill-gold { background:rgba(245,184,66,0.10); color:var(--accent-gold); border:1px solid rgba(245,184,66,0.20); }
+.pill-red { background:rgba(248,113,113,0.10); color:var(--score-bad); border:1px solid rgba(248,113,113,0.20); }
+.pill-blue { background:rgba(96,165,250,0.10); color:#60a5fa; border:1px solid rgba(96,165,250,0.20); }
+.pill-dark { background:rgba(0,0,0,0.4); color:var(--text-1); border:1px solid var(--border-strong); }
+.podium-1 { background:linear-gradient(90deg, rgba(245,184,66,0.10) 0%, transparent 70%); border-left:2px solid #f5b842; }
+.podium-2 { background:linear-gradient(90deg, rgba(180,188,200,0.08) 0%, transparent 65%); border-left:2px solid #94a3b8; }
+.podium-3 { background:linear-gradient(90deg, rgba(180,100,50,0.08) 0%, transparent 60%); border-left:2px solid #c97c3a; }
+.gold-text { background:linear-gradient(180deg, #f5b842 0%, #d97706 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.green-text { background:linear-gradient(180deg, #6ee7a7 0%, #22c55e 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.dimples { background-image:radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px); background-size:14px 14px; }
+.no-scrollbar::-webkit-scrollbar { display:none; } .no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+::-webkit-scrollbar { width:8px; height:8px; } ::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.07); border-radius:4px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,0.12); }
+@keyframes fade-up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.animate-fade-up { animation:fade-up 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+.animate-fade-in { animation:fade-in 0.4s ease-out both; }
+@keyframes pulse-soft { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+.animate-pulse-soft { animation:pulse-soft 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+@keyframes glow-pulse { 0%,100% { box-shadow:0 0 0 1px rgba(74,222,128,0.30), 0 0 24px rgba(74,222,128,0.20); } 50% { box-shadow:0 0 0 1px rgba(74,222,128,0.45), 0 0 32px rgba(74,222,128,0.32); } }
+.glow-pulse { animation:glow-pulse 2.4s ease-in-out infinite; }
+.wheel-spin { transition:transform 6.5s cubic-bezier(0.16,1,0.3,1); transform-origin:center center; }
+.wheel-idle { transition:none; }
+.lift { transition:transform 220ms cubic-bezier(0.16,1,0.3,1), border-color 220ms ease, box-shadow 220ms ease; }
+.lift:hover { transform:translateY(-1px); border-color:rgba(255,255,255,0.18); box-shadow:0 12px 32px rgba(0,0,0,0.5); }
+input[type="text"], input:not([type]), select, textarea { background:var(--bg-1); color:var(--text-1); border:1px solid var(--border-strong); border-radius:8px; padding:10px 12px; font-size:14px; transition:border-color 180ms ease, box-shadow 180ms ease; }
+input::placeholder { color:var(--text-3); }
+input:focus, select:focus, textarea:focus { outline:none; border-color:var(--accent-green); box-shadow:0 0 0 3px rgba(74,222,128,0.12); }
+select option { background:var(--bg-2); color:var(--text-1); }
+.tabs-sticky { position:sticky; top:64px; z-index:30; background:rgba(10,14,19,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+button { -webkit-tap-highlight-color:transparent; }
+::selection { background:rgba(74,222,128,0.30); color:var(--text-1); }
+</style>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useMemo, useRef, useCallback } = React;
+
+// ============================================================================
+// CONSTANTS & DATA
+// ============================================================================
+
+const MAJORS = [
+  { id:'masters', name:'The Masters', short:'Masters', dates:'April 9 – 12, 2026', course:'Augusta National G.C.', location:'Augusta, GA',
+    theme:{ key:'masters', eyebrow:'MAJOR 1 · 2026', accent:'#4ade80', gradient:'linear-gradient(135deg,#0a1d12 0%,#04100a 100%)' } },
+  { id:'pga-championship', name:'PGA Championship', short:'PGA', dates:'May 14 – 17, 2026', course:'Aronimink G.C.', location:'Newtown Square, PA',
+    theme:{ key:'pga', eyebrow:'MAJOR 2 · 2026', accent:'#60a5fa', gradient:'linear-gradient(135deg,#0c1428 0%,#050a16 100%)' } },
+  { id:'us-open', name:'U.S. Open', short:'U.S. Open', dates:'June 12 – 15, 2025', course:'Oakmont Country Club', location:'Oakmont, PA', priorYear:2025,
+    theme:{ key:'usopen', eyebrow:'2025 · LAST YEAR', accent:'#60a5fa', gradient:'linear-gradient(135deg,#0a1228 0%,#04081a 100%)' } },
+  { id:'the-open', name:'The Open Championship', short:'The Open', dates:'July 17 – 20, 2025', course:'Royal Portrush G.C.', location:'County Antrim, N. Ireland', priorYear:2025,
+    theme:{ key:'open', eyebrow:'2025 · LAST YEAR', accent:'#f5b842', gradient:'linear-gradient(135deg,#161210 0%,#08070a 100%)' } },
+];
+
+const DEFAULT_POOL = ['Ben','Jackson Z','Jayton','Carter','Corbin','Evan','John','Alex','Jack','Mason','Cole','Dresden','Jacob','Mitch'];
+
+const MASTERS_POOL = [...DEFAULT_POOL];
+const MASTERS_DRAFTS = {
+  'Ben':       ['Scottie Scheffler','J.J. Spaun','Corey Conners','Harry Hall','Matt McCarty'],
+  'Jackson Z': ['Bryson DeChambeau','Justin Thomas','Nicolai Højgaard','Dustin Johnson','Marco Penge'],
+  'Jayton':    ['Rory McIlroy','Russell Henley','Maverick McNealy','Aaron Rai','Zach Johnson'],
+  'Carter':    ['Ryan Gerard','Keegan Bradley','Ethan Fang (a)','Andrew Novak','Ryan Fox'],
+  'Corbin':    ['Cameron Young','Jacob Bridgeman','Sungjae Im','Brian Harman','Kurt Kitayama'],
+  'Evan':      ['Jon Rahm','Chris Gotterup','Jason Day','Cameron Smith','Nick Taylor'],
+  'John':      ['Xander Schauffele','Patrick Cantlay','Sepp Straka','Rasmus Højgaard','Sam Stevens'],
+  'Alex':      ['Matt Fitzpatrick','Akshay Bhatia','Adam Scott','Gary Woodland','Alex Noren'],
+  'Jack':      ['Ludvig Åberg','Justin Rose','Jake Knapp','Ben Griffin','Mason Howell (a)'],
+  'Mason':     ['Tommy Fleetwood','Shane Lowry','Brooks Koepka','Michael Kim','Johnny Keefer'],
+  'Cole':      ['Collin Morikawa','Patrick Reed','Davis Riley','Ángel Cabrera','Michael Brennan'],
+  'Dresden':   ['Robert MacIntyre','Si Woo Kim','Sam Burns','Daniel Berger','Nico Echavarria'],
+  'Jacob':     ['Hideki Matsuyama','Min Woo Lee','Wyndham Clark','Max Homa','Jackson Herrington (a)'],
+  'Mitch':     ['Jordan Spieth','Viktor Hovland','Tyrrell Hatton','Harris English','Kristoffer Reitan'],
+};
+
+// Real 2026 Masters final results. McIlroy won at -12 (back-to-back).
+// total = final to-par for display; points = pool scoring (winner total-5, MC cut+5, others = total).
+const MASTERS_2026_RESULTS = {
+  'Rory McIlroy':      { total:-12, round:-1, status:'Won',         thru:18, position:1,  posLabel:'1',   points:-17 },
+  'Scottie Scheffler': { total:-11, round:-4, status:'Final · 2nd', thru:18, position:2,  posLabel:'2',   points:-11 },
+  'Tyrrell Hatton':    { total:-10, round:-6, status:'Final · T3',  thru:18, position:3,  posLabel:'T3',  points:-10 },
+  'Russell Henley':    { total:-10, round:-4, status:'Final · T3',  thru:18, position:3,  posLabel:'T3',  points:-10 },
+  'Justin Rose':       { total:-10, round:-2, status:'Final · T3',  thru:18, position:3,  posLabel:'T3',  points:-10 },
+  'Cameron Young':     { total:-10, round:1,  status:'Final · T3',  thru:18, position:3,  posLabel:'T3',  points:-10 },
+  'Collin Morikawa':   { total:-9,  round:-4, status:'Final · T7',  thru:18, position:7,  posLabel:'T7',  points:-9 },
+  'Sam Burns':         { total:-9,  round:1,  status:'Final · T7',  thru:18, position:7,  posLabel:'T7',  points:-9 },
+  'Max Homa':          { total:-8,  round:-5, status:'Final · T9',  thru:18, position:9,  posLabel:'T9',  points:-8 },
+  'Xander Schauffele': { total:-8,  round:-4, status:'Final · T9',  thru:18, position:9,  posLabel:'T9',  points:-8 },
+  'Jake Knapp':        { total:-7,  round:-2, status:'Final · 11',  thru:18, position:11, posLabel:'11',  points:-7 },
+  'Jordan Spieth':     { total:-5,  round:-4, status:'Final · T12', thru:18, position:12, posLabel:'T12', points:-5 },
+  'Hideki Matsuyama':  { total:-5,  round:-3, status:'Final · T12', thru:18, position:12, posLabel:'T12', points:-5 },
+  'Brooks Koepka':     { total:-5,  round:-1, status:'Final · T12', thru:18, position:12, posLabel:'T12', points:-5 },
+  'Patrick Cantlay':   { total:-5,  round:1,  status:'Final · T12', thru:18, position:12, posLabel:'T12', points:-5 },
+  'Patrick Reed':      { total:-5,  round:1,  status:'Final · T12', thru:18, position:12, posLabel:'T12', points:-5 },
+  'Jason Day':         { total:-5,  round:3,  status:'Final · T12', thru:18, position:12, posLabel:'T12', points:-5 },
+  'Maverick McNealy':  { total:-4,  round:-5, status:'Final · T18', thru:18, position:18, posLabel:'T18', points:-4 },
+  'Viktor Hovland':    { total:-4,  round:-5, status:'Final · T18', thru:18, position:18, posLabel:'T18', points:-4 },
+  'Matt Fitzpatrick':  { total:-4,  round:-1, status:'Final · T18', thru:18, position:18, posLabel:'T18', points:-4 },
+  'Keegan Bradley':    { total:-3,  round:-6, status:'Final · T21', thru:18, position:21, posLabel:'T21', points:-3 },
+  'Ludvig Åberg':      { total:-3,  round:0,  status:'Final · T21', thru:18, position:21, posLabel:'T21', points:-3 },
+  'Wyndham Clark':     { total:-3,  round:1,  status:'Final · T21', thru:18, position:21, posLabel:'T21', points:-3 },
+  'Matt McCarty':      { total:-2,  round:-3, status:'Final · T24', thru:18, position:24, posLabel:'T24', points:-2 },
+  'Adam Scott':        { total:-2,  round:-2, status:'Final · T24', thru:18, position:24, posLabel:'T24', points:-2 },
+  'Sam Stevens':       { total:-2,  round:-2, status:'Final · T24', thru:18, position:24, posLabel:'T24', points:-2 },
+  'Brian Campbell':    { total:-2,  round:1,  status:'Final · T24', thru:18, position:24, posLabel:'T24', points:-2 },
+  'Michael Brennan':   { total:-2,  round:1,  status:'Final · T24', thru:18, position:24, posLabel:'T24', points:-2 },
+  'Chris Gotterup':    { total:-2,  round:1,  status:'Final · T24', thru:18, position:24, posLabel:'T24', points:-2 },
+  'Alex Noren':        { total:-1,  round:-2, status:'Final · T30', thru:18, position:30, posLabel:'T30', points:-1 },
+  'Harris English':    { total:-1,  round:0,  status:'Final · T30', thru:18, position:30, posLabel:'T30', points:-1 },
+  'Shane Lowry':       { total:-1,  round:8,  status:'Final · T30', thru:18, position:30, posLabel:'T30', points:-1 },
+  'Gary Woodland':     { total:0,   round:-6, status:'Final · T33', thru:18, position:33, posLabel:'T33', points:0 },
+  'Dustin Johnson':    { total:0,   round:-3, status:'Final · T33', thru:18, position:33, posLabel:'T33', points:0 },
+  'Brian Harman':      { total:0,   round:1,  status:'Final · T33', thru:18, position:33, posLabel:'T33', points:0 },
+  'Tommy Fleetwood':   { total:0,   round:4,  status:'Final · T33', thru:18, position:33, posLabel:'T33', points:0 },
+  'Ben Griffin':       { total:0,   round:5,  status:'Final · T33', thru:18, position:33, posLabel:'T33', points:0 },
+  'Jon Rahm':          { total:1,   round:-4, status:'Final · T38', thru:18, position:38, posLabel:'T38', points:1 },
+  'Ryan Gerard':       { total:1,   round:5,  status:'Final · T38', thru:18, position:38, posLabel:'T38', points:1 },
+  'Haotong Li':        { total:1,   round:8,  status:'Final · T38', thru:18, position:38, posLabel:'T38', points:1 },
+  'Justin Thomas':     { total:2,   round:1,  status:'Final · T41', thru:18, position:41, posLabel:'T41', points:2 },
+  'Jacob Bridgeman':   { total:2,   round:4,  status:'Final · T41', thru:18, position:41, posLabel:'T41', points:2 },
+  'Sepp Straka':       { total:2,   round:4,  status:'Final · T41', thru:18, position:41, posLabel:'T41', points:2 },
+  'Nick Taylor':       { total:2,   round:5,  status:'Final · T41', thru:18, position:41, posLabel:'T41', points:2 },
+  'Kristoffer Reitan': { total:2,   round:5,  status:'Final · T41', thru:18, position:41, posLabel:'T41', points:2 },
+  'Sungjae Im':        { total:3,   round:5,  status:'Final · 46',  thru:18, position:46, posLabel:'46',  points:3 },
+  'Si Woo Kim':        { total:4,   round:0,  status:'Final · 47',  thru:18, position:47, posLabel:'47',  points:4 },
+  'Aaron Rai':         { total:5,   round:-2, status:'Final · 48',  thru:18, position:48, posLabel:'48',  points:5 },
+  'Corey Conners':     { total:6,   round:3,  status:'Final · T49', thru:18, position:49, posLabel:'T49', points:6 },
+  'Marco Penge':       { total:6,   round:6,  status:'Final · T49', thru:18, position:49, posLabel:'T49', points:6 },
+  'Kurt Kitayama':     { total:7,   round:0,  status:'Final · 51',  thru:18, position:51, posLabel:'51',  points:7 },
+  'Sergio García':     { total:8,   round:3,  status:'Final · 52',  thru:18, position:52, posLabel:'52',  points:8 },
+  'Rasmus Højgaard':   { total:10,  round:5,  status:'Final · 53',  thru:18, position:53, posLabel:'53',  points:10 },
+  'Charl Schwartzel':  { total:12,  round:3,  status:'Final · 54',  thru:18, position:54, posLabel:'54',  points:12 },
+  // Missed cut (cut line +4)
+  'J.J. Spaun':              { total:5,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:10 },
+  'Bryson DeChambeau':       { total:6,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:11 },
+  'Nicolai Højgaard':        { total:6,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:11 },
+  'Cameron Smith':           { total:7,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:12 },
+  'Harry Hall':              { total:5,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:10 },
+  'Zach Johnson':            { total:6,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:11 },
+  'Ethan Fang (a)':          { total:8,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:13 },
+  'Andrew Novak':            { total:7,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:12 },
+  'Ryan Fox':                { total:5,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:10 },
+  'Akshay Bhatia':           { total:6,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:11 },
+  'Mason Howell (a)':        { total:9,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:14 },
+  'Johnny Keefer':           { total:11, round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:16 },
+  'Michael Kim':             { total:8,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:13 },
+  'Davis Riley':             { total:18, round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:23 },
+  'Ángel Cabrera':           { total:16, round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:21 },
+  'Robert MacIntyre':        { total:7,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:12 },
+  'Daniel Berger':           { total:8,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:13 },
+  'Nico Echavarria':         { total:13, round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:18 },
+  'Min Woo Lee':             { total:11, round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:16 },
+  'Jackson Herrington (a)':  { total:8,  round:0, status:'Missed cut', thru:36, position:99, posLabel:'CUT', points:13 },
+};
+
+// ----------------------------------------------------------------------
+// 2025 RESULTS — last year's tournaments shown for reference until 2026 plays
+// Source: Wikipedia & ESPN, July 2025 (U.S. Open, The Open Championship)
+// ----------------------------------------------------------------------
+const US_OPEN_2025_RESULTS = {
+  'J.J. Spaun': { total: -1, round: 2, status: 'Won', thru: 18, position: 1, posLabel: '1', points: -1 },
+  'Robert MacIntyre': { total: 1, round: -2, status: 'Final · 2nd', thru: 18, position: 2, posLabel: '2', points: 1 },
+  'Viktor Hovland': { total: 2, round: 3, status: 'Final · 3rd', thru: 18, position: 3, posLabel: '3', points: 2 },
+  'Tyrrell Hatton': { total: 3, round: 2, status: 'Final · T4', thru: 18, position: 4, posLabel: 'T4', points: 3 },
+  'Carlos Ortiz': { total: 3, round: 3, status: 'Final · T4', thru: 18, position: 4, posLabel: 'T4', points: 3 },
+  'Cameron Young': { total: 3, round: 0, status: 'Final · T4', thru: 18, position: 4, posLabel: 'T4', points: 3 },
+  'Sam Burns': { total: 4, round: 8, status: 'Final · T7', thru: 18, position: 7, posLabel: 'T7', points: 4 },
+  'Jon Rahm': { total: 4, round: -3, status: 'Final · T7', thru: 18, position: 7, posLabel: 'T7', points: 4 },
+  'Scottie Scheffler': { total: 4, round: 0, status: 'Final · T7', thru: 18, position: 7, posLabel: 'T7', points: 4 },
+  'Ben Griffin': { total: 5, round: 1, status: 'Final · T10', thru: 18, position: 10, posLabel: 'T10', points: 5 },
+  'Russell Henley': { total: 5, round: 1, status: 'Final · T10', thru: 18, position: 10, posLabel: 'T10', points: 5 },
+  'Christiaan Bezuidenhout': { total: 6, round: 2, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Chris Kirk': { total: 6, round: 1, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Brooks Koepka': { total: 6, round: 1, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Thriston Lawrence': { total: 6, round: 5, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Rasmus Neergaard-Petersen': { total: 6, round: 4, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Xander Schauffele': { total: 6, round: -1, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Adam Scott': { total: 6, round: 9, status: 'Final · T12', thru: 18, position: 12, posLabel: 'T12', points: 6 },
+  'Ryan Fox': { total: 7, round: -1, status: 'Final · T19', thru: 18, position: 19, posLabel: 'T19', points: 7 },
+  'Emiliano Grillo': { total: 7, round: 3, status: 'Final · T19', thru: 18, position: 19, posLabel: 'T19', points: 7 },
+  'Rory McIlroy': { total: 7, round: -3, status: 'Final · T19', thru: 18, position: 19, posLabel: 'T19', points: 7 },
+  'Victor Perez': { total: 7, round: 3, status: 'Final · T19', thru: 18, position: 19, posLabel: 'T19', points: 7 },
+  'Jason Day': { total: 8, round: 3, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Thomas Detry': { total: 8, round: 3, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Chris Gotterup': { total: 8, round: 4, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Max Greyserman': { total: 8, round: 4, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Collin Morikawa': { total: 8, round: 0, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Patrick Reed': { total: 8, round: 0, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Jordan Spieth': { total: 8, round: 2, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Sam Stevens': { total: 8, round: 3, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Nick Taylor': { total: 8, round: 4, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Matt Wallace': { total: 8, round: 3, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: 8 },
+  'Keegan Bradley': { total: 9, round: 4, status: 'Final · T33', thru: 18, position: 33, posLabel: 'T33', points: 9 },
+  'Tom Kim': { total: 9, round: 2, status: 'Final · T33', thru: 18, position: 33, posLabel: 'T33', points: 9 },
+  'J.T. Poston': { total: 9, round: 3, status: 'Final · T33', thru: 18, position: 33, posLabel: 'T33', points: 9 },
+  'Aaron Rai': { total: 9, round: 3, status: 'Final · T33', thru: 18, position: 33, posLabel: 'T33', points: 9 },
+  'Maverick McNealy': { total: 10, round: 3, status: 'Final · 37', thru: 18, position: 37, posLabel: '37', points: 10 },
+  'Tony Finau': { total: 11, round: 1, status: 'Final · T38', thru: 18, position: 38, posLabel: 'T38', points: 11 },
+  'Matt Fitzpatrick': { total: 11, round: 2, status: 'Final · T38', thru: 18, position: 38, posLabel: 'T38', points: 11 },
+  'Marc Leishman': { total: 11, round: 7, status: 'Final · T38', thru: 18, position: 38, posLabel: 'T38', points: 11 },
+  'Taylor Pendrith': { total: 11, round: -1, status: 'Final · T38', thru: 18, position: 38, posLabel: 'T38', points: 11 },
+  'Hideki Matsuyama': { total: 12, round: -2, status: 'Final · T42', thru: 18, position: 42, posLabel: 'T42', points: 12 },
+  'Si Woo Kim': { total: 12, round: 6, status: 'Final · T42', thru: 18, position: 42, posLabel: 'T42', points: 12 },
+  'Andrew Novak': { total: 12, round: 2, status: 'Final · T42', thru: 18, position: 42, posLabel: 'T42', points: 12 },
+  'Daniel Berger': { total: 13, round: 3, status: 'Final · T46', thru: 18, position: 46, posLabel: 'T46', points: 13 },
+  'Rasmus Højgaard': { total: 13, round: 5, status: 'Final · T46', thru: 18, position: 46, posLabel: 'T46', points: 13 },
+  'Niklas Nørgaard': { total: 13, round: 2, status: 'Final · T46', thru: 18, position: 46, posLabel: 'T46', points: 13 },
+  'Ryan Gerard': { total: 14, round: 9, status: 'Final · T50', thru: 18, position: 50, posLabel: 'T50', points: 14 },
+  'Mackenzie Hughes': { total: 14, round: 5, status: 'Final · T50', thru: 18, position: 50, posLabel: 'T50', points: 14 },
+  'Michael Kim': { total: 14, round: 2, status: 'Final · T50', thru: 18, position: 50, posLabel: 'T50', points: 14 },
+  'Adam Schenk': { total: 14, round: 5, status: 'Final · T50', thru: 18, position: 50, posLabel: 'T50', points: 14 },
+  'Im Sung-jae': { total: 16, round: 5, status: 'Final · T57', thru: 18, position: 57, posLabel: 'T57', points: 16 },
+  'Denny McCarthy': { total: 16, round: 6, status: 'Final · T57', thru: 18, position: 57, posLabel: 'T57', points: 16 },
+  'Harris English': { total: 18, round: 4, status: 'Final · T59', thru: 18, position: 59, posLabel: 'T59', points: 18 },
+  'Brian Harman': { total: 18, round: 6, status: 'Final · T59', thru: 18, position: 59, posLabel: 'T59', points: 18 },
+  'Johnny Keefer': { total: 19, round: 7, status: 'Final · T61', thru: 18, position: 61, posLabel: 'T61', points: 19 },
+  // Missed cut
+  'Ludvig Åberg': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Patrick Cantlay': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Wyndham Clark': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Phil Mickelson': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Cameron Smith': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Davis Thompson': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Tommy Fleetwood': { total: 9, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 9 },
+  'Min Woo Lee': { total: 9, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 9 },
+  'Akshay Bhatia': { total: 10, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 10 },
+  'Jacob Bridgeman': { total: 10, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 10 },
+  'Bryson DeChambeau': { total: 10, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 10 },
+  'Dustin Johnson': { total: 10, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 10 },
+  'Joaquín Niemann': { total: 10, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 10 },
+  'Gary Woodland': { total: 10, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 10 },
+  'Sepp Straka': { total: 11, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 11 },
+  'Justin Thomas': { total: 12, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 12 },
+  'Justin Rose': { total: 14, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 14 },
+  'Davis Riley': { total: 15, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 15 },
+  'Shane Lowry': { total: 17, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 17 },
+};
+
+const OPEN_2025_RESULTS = {
+  'Scottie Scheffler': { total: -17, round: -3, status: 'Won', thru: 18, position: 1, posLabel: '1', points: -17 },
+  'Harris English': { total: -13, round: -5, status: 'Final · 2nd', thru: 18, position: 2, posLabel: '2', points: -13 },
+  'Chris Gotterup': { total: -12, round: -4, status: 'Final · 3rd', thru: 18, position: 3, posLabel: '3', points: -12 },
+  'Wyndham Clark': { total: -11, round: -6, status: 'Final · T4', thru: 18, position: 4, posLabel: 'T4', points: -11 },
+  'Matt Fitzpatrick': { total: -11, round: -2, status: 'Final · T4', thru: 18, position: 4, posLabel: 'T4', points: -11 },
+  'Li Haotong': { total: -11, round: -1, status: 'Final · T4', thru: 18, position: 4, posLabel: 'T4', points: -11 },
+  'Robert MacIntyre': { total: -10, round: -4, status: 'Final · T7', thru: 18, position: 7, posLabel: 'T7', points: -10 },
+  'Rory McIlroy': { total: -10, round: -2, status: 'Final · T7', thru: 18, position: 7, posLabel: 'T7', points: -10 },
+  'Xander Schauffele': { total: -10, round: -3, status: 'Final · T7', thru: 18, position: 7, posLabel: 'T7', points: -10 },
+  'Corey Conners': { total: -9, round: -5, status: 'Final · T10', thru: 18, position: 10, posLabel: 'T10', points: -9 },
+  'Bryson DeChambeau': { total: -9, round: -7, status: 'Final · T10', thru: 18, position: 10, posLabel: 'T10', points: -9 },
+  'Brian Harman': { total: -9, round: -3, status: 'Final · T10', thru: 18, position: 10, posLabel: 'T10', points: -9 },
+  'Russell Henley': { total: -9, round: -3, status: 'Final · T10', thru: 18, position: 10, posLabel: 'T10', points: -9 },
+  'Rickie Fowler': { total: -8, round: -6, status: 'Final · T14', thru: 18, position: 14, posLabel: 'T14', points: -8 },
+  'Nicolai Højgaard': { total: -8, round: -2, status: 'Final · T14', thru: 18, position: 14, posLabel: 'T14', points: -8 },
+  'Tommy Fleetwood': { total: -7, round: -4, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'Tyrrell Hatton': { total: -7, round: 1, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'Rasmus Højgaard': { total: -7, round: -1, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'Hideki Matsuyama': { total: -7, round: -5, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'John Parry': { total: -7, round: -4, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'Justin Rose': { total: -7, round: -2, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'Jesper Svensson': { total: -7, round: -5, status: 'Final · T16', thru: 18, position: 16, posLabel: 'T16', points: -7 },
+  'Ludvig Åberg': { total: -6, round: -1, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: -6 },
+  'Lucas Glover': { total: -6, round: -2, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: -6 },
+  'Dustin Johnson': { total: -6, round: -2, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: -6 },
+  'Maverick McNealy': { total: -6, round: -5, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: -6 },
+  'J.J. Spaun': { total: -6, round: -3, status: 'Final · T23', thru: 18, position: 23, posLabel: 'T23', points: -6 },
+  'Harry Hall': { total: -5, round: 0, status: 'Final · T28', thru: 18, position: 28, posLabel: 'T28', points: -5 },
+  'Oliver Lindell': { total: -5, round: 0, status: 'Final · T28', thru: 18, position: 28, posLabel: 'T28', points: -5 },
+  'Daniel Berger': { total: -4, round: -3, status: 'Final · T30', thru: 18, position: 30, posLabel: 'T30', points: -4 },
+  'Akshay Bhatia': { total: -4, round: -2, status: 'Final · T30', thru: 18, position: 30, posLabel: 'T30', points: -4 },
+  'Keegan Bradley': { total: -4, round: 0, status: 'Final · T30', thru: 18, position: 30, posLabel: 'T30', points: -4 },
+  'Kristoffer Reitan': { total: -4, round: 1, status: 'Final · T30', thru: 18, position: 30, posLabel: 'T30', points: -4 },
+  'Christiaan Bezuidenhout': { total: -3, round: 1, status: 'Final · T34', thru: 18, position: 34, posLabel: 'T34', points: -3 },
+  'Sergio García': { total: -3, round: -3, status: 'Final · T34', thru: 18, position: 34, posLabel: 'T34', points: -3 },
+  'Jon Rahm': { total: -3, round: -1, status: 'Final · T34', thru: 18, position: 34, posLabel: 'T34', points: -3 },
+  'Aaron Rai': { total: -3, round: -2, status: 'Final · T34', thru: 18, position: 34, posLabel: 'T34', points: -3 },
+  'Justin Thomas': { total: -3, round: 0, status: 'Final · T34', thru: 18, position: 34, posLabel: 'T34', points: -3 },
+  'Lee Westwood': { total: -3, round: 2, status: 'Final · T34', thru: 18, position: 34, posLabel: 'T34', points: -3 },
+  'Shane Lowry': { total: -2, round: -5, status: 'Final · T40', thru: 18, position: 40, posLabel: 'T40', points: -2 },
+  'Jordan Spieth': { total: -2, round: -3, status: 'Final · T40', thru: 18, position: 40, posLabel: 'T40', points: -2 },
+  'Sam Burns': { total: -1, round: 1, status: 'Final · T45', thru: 18, position: 45, posLabel: 'T45', points: -1 },
+  'Thomas Detry': { total: -1, round: -1, status: 'Final · T45', thru: 18, position: 45, posLabel: 'T45', points: -1 },
+  'Im Sung-jae': { total: 0, round: 4, status: 'Final · T52', thru: 18, position: 52, posLabel: 'T52', points: 0 },
+  'Sepp Straka': { total: 0, round: 0, status: 'Final · T52', thru: 18, position: 52, posLabel: 'T52', points: 0 },
+  'Tony Finau': { total: 1, round: 4, status: 'Final · T56', thru: 18, position: 56, posLabel: 'T56', points: 1 },
+  'Phil Mickelson': { total: 1, round: -4, status: 'Final · T56', thru: 18, position: 56, posLabel: 'T56', points: 1 },
+  'Viktor Hovland': { total: 4, round: 2, status: 'Final · T63', thru: 18, position: 63, posLabel: 'T63', points: 4 },
+  'Andrew Novak': { total: 4, round: 0, status: 'Final · T63', thru: 18, position: 63, posLabel: 'T63', points: 4 },
+  // Missed cut
+  'Joaquín Niemann': { total: 2, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 2 },
+  'Ben Griffin': { total: 2, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 2 },
+  'Jason Day': { total: 2, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 2 },
+  'Ryan Fox': { total: 2, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 2 },
+  'Patrick Cantlay': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Tom Kim': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Si Woo Kim': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Denny McCarthy': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Nick Taylor': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Carlos Ortiz': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Zach Johnson': { total: 3, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 3 },
+  'Cameron Young': { total: 4, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 4 },
+  'Min Woo Lee': { total: 5, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 5 },
+  'Patrick Reed': { total: 5, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 5 },
+  'Brooks Koepka': { total: 7, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 7 },
+  'Collin Morikawa': { total: 7, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 7 },
+  'Sahith Theegala': { total: 7, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 7 },
+  'Cameron Smith': { total: 8, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 8 },
+  'Davis Riley': { total: 9, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 9 },
+  'Adam Scott': { total: 9, round: 0, status: 'Missed cut', thru: 36, position: 99, posLabel: 'CUT', points: 9 },
+};
+
+const MASTERS_FINAL_TS = Date.UTC(2026, 3, 12, 23, 30); // Sun Apr 12, 2026 ~7:30 PM ET
+
+// FanDuel outright winner odds for 2026 PGA Championship at Aronimink (May 14-17).
+// Source: CBS Sports / FanDuel, retrieved May 9, 2026.
+const PGA_2026_ODDS_RAW = [
+  ['Scottie Scheffler',440],['Rory McIlroy',750],['Jon Rahm',1300],['Cameron Young',1300],
+  ['Xander Schauffele',1700],['Matt Fitzpatrick',1800],['Bryson DeChambeau',2000],['Ludvig Åberg',2000],
+  ['Collin Morikawa',2200],['Justin Thomas',2200],['Tommy Fleetwood',2500],['Justin Rose',2700],
+  ['Viktor Hovland',3000],['Chris Gotterup',3300],['Patrick Cantlay',3500],['Brooks Koepka',3500],
+  ['Hideki Matsuyama',4000],['Joaquín Niemann',4000],['Tyrrell Hatton',4000],['Ben Griffin',4500],
+  ['Patrick Reed',5000],['Shane Lowry',5000],['Corey Conners',5000],['Russell Henley',5000],
+  ['Sepp Straka',5500],['Jordan Spieth',5500],['Robert MacIntyre',6000],['Jake Knapp',6000],
+  ['Akshay Bhatia',6500],['Tony Finau',6500],['Daniel Berger',6500],['Jason Day',6500],
+  ['Max Homa',6500],['Sam Burns',6500],['Sungjae Im',6500],['Cameron Smith',6500],
+  ['Marco Penge',6500],['J.J. Spaun',8000],['Si Woo Kim',8000],['Wyndham Clark',8000],
+  ['Gary Woodland',8000],['Min Woo Lee',8000],['Maverick McNealy',8000],['Will Zalatoris',8000],
+  ['Dustin Johnson',8000],['Jacob Bridgeman',8000],['Keegan Bradley',10000],['Harris English',10000],
+  ['Rickie Fowler',10000],['Brian Harman',10000],['Aaron Rai',10000],['Denny McCarthy',10000],
+  ['Sahith Theegala',10000],['Keith Mitchell',10000],['J.T. Poston',12500],['Taylor Pendrith',12500],
+  ['Nicolai Højgaard',12500],['Davis Thompson',12500],['Adam Scott',12500],['Ryan Fox',15000],
+  ['Thomas Detry',15000],['Dean Burmester',15000],['Sergio García',15000],['Byeong Hun An',15000],
+  ['David Puig',15000],['Mackenzie Hughes',15000],['Tom Kim',15000],['Rasmus Neergaard-Petersen',15000],
+  ['Andrew Novak',15000],['Rasmus Højgaard',15000],['Stephan Jaeger',15000],['Garrick Higgo',15000],
+  ['Thorbjørn Olesen',20000],['Tiger Woods',20000],
+];
+const PGA_2026_ODDS = {};
+PGA_2026_ODDS_RAW.forEach(([name, val], i) => {
+  PGA_2026_ODDS[name] = { odds:'+'+val, oddsValue:val, position:i+1, posLabel:String(i+1), status:'Tee off May 14', total:0, round:0, thru:0 };
+});
+
+// FIELD — broad real-major field for non-Masters drafts (~125 golfers).
+const FIELD = [
+  'Scottie Scheffler', 'Rory McIlroy', 'Xander Schauffele', 'Jon Rahm',
+  'Bryson DeChambeau', 'Collin Morikawa', 'Ludvig Åberg', 'Viktor Hovland',
+  'Tommy Fleetwood', 'Hideki Matsuyama', 'Justin Thomas', 'Patrick Cantlay',
+  'Jordan Spieth', 'Wyndham Clark', 'Cameron Young', 'Matt Fitzpatrick',
+  'Tyrrell Hatton', 'Sam Burns', 'Max Homa', 'Ben Griffin',
+  'Russell Henley', 'Justin Rose', 'Shane Lowry', 'Brooks Koepka',
+  'Cameron Smith', 'Joaquín Niemann', 'Robert MacIntyre', 'Min Woo Lee',
+  'Tom Kim', 'Tony Finau', 'Sungjae Im', 'Sepp Straka',
+  'Harris English', 'Sahith Theegala', 'Chris Gotterup', 'Maverick McNealy',
+  'Adam Scott', 'Patrick Reed', 'Akshay Bhatia', 'Jason Day',
+  'Daniel Berger', 'J.J. Spaun', 'Will Zalatoris', 'Dustin Johnson',
+  'Sam Stevens', 'Si Woo Kim', 'Gary Woodland', 'Nicolai Højgaard',
+  'Rasmus Højgaard', 'Ryan Fox', 'Aaron Rai', 'Keegan Bradley',
+  'Brian Harman', 'Corey Conners', 'Sergio García', 'Phil Mickelson',
+  'Marco Penge', 'Nick Taylor', 'Mackenzie Hughes', 'Cam Davis',
+  'Davis Thompson', 'Stephan Jäger', 'Andrew Novak', 'Jacob Bridgeman',
+  'Rickie Fowler', 'Lucas Glover', 'Brian Campbell', 'Michael Brennan',
+  'Matt McCarty', 'Jake Knapp', 'Denny McCarthy', 'Keith Mitchell',
+  'J.T. Poston', 'Taylor Pendrith', 'Thomas Detry', 'Dean Burmester',
+  'David Puig', 'Byeong Hun An', 'Garrick Higgo', 'Thorbjørn Olesen',
+  'Rasmus Neergaard-Petersen', 'Christiaan Bezuidenhout', 'Chris Kirk', 'Thriston Lawrence',
+  'Haotong Li', 'Victor Perez', 'Emiliano Grillo', 'Max Greyserman',
+  'Matt Wallace', 'Marc Leishman', 'Niklas Nørgaard', 'Jhonattan Vegas',
+  'Adam Schenk', 'John Parry', 'Lee Westwood', 'Alex Noren',
+  'Tom Hoge', 'Joel Dahmen', 'Eric Cole', 'Bud Cauley',
+  'Mark Hubbard', 'Henrik Stenson', 'Brendon Todd', 'Adam Hadwin',
+  'Adam Svensson', 'Kurt Kitayama', 'Charl Schwartzel', 'Harry Hall',
+  'Zach Johnson', 'Ryan Gerard', 'Kristoffer Reitan', 'Michael Kim',
+  'Davis Riley', 'Ángel Cabrera', 'Nico Echavarria', 'Johnny Keefer',
+  'Tiger Woods', 'Pádraig Harrington', 'Justin Suh', 'Carlos Ortiz',
+  'Patrick Rodgers', 'Tom McKibbin', 'Aldrich Potgieter', 'Beau Hossler',
+  'Joseph Bramlett',
+];
+
+// ============================================================================
+// SCORES API — swap fetchScores for a real provider when ready.
+// ============================================================================
+
+function generateMockScores(majorId, seed) {
+  const out = {};
+  const off = ['masters','pga-championship','us-open','the-open'].indexOf(majorId);
+  FIELD.forEach((name, i) => {
+    const a = ((i+1)*9301 + 49297 + (seed|0)*17 + off*41) % 233280;
+    const b = ((i+1)*4787 + (seed|0)*31 + off*53) % 233280;
+    const total = Math.floor((a/233280)*26) - 12;
+    const round = Math.floor((b/233280)*11) - 5;
+    const thruRand = (i*7 + (seed|0)*3 + off) % 22;
+    let status, thru;
+    if (thruRand >= 18) { status='Finished'; thru=18; }
+    else if (thruRand <= 1) { status = 'Tee '+(1+(i%4))+':'+(((i+(seed|0))%6)*10).toString().padStart(2,'0')+' PM'; thru=0; }
+    else { status='Thru '+thruRand; thru=thruRand; }
+    out[name] = { total, round, status, thru };
+  });
+  const sorted = [...FIELD].sort((x,y) => out[x].total - out[y].total);
+  const counts = {};
+  sorted.forEach(g => counts[out[g].total] = (counts[out[g].total]||0)+1);
+  let lt=null, lr=1;
+  sorted.forEach((g,i) => { if (out[g].total !== lt) { lr=i+1; lt=out[g].total; } out[g].position=lr; out[g].posLabel = (counts[out[g].total]>1?'T':'')+lr; });
+  return out;
+}
+
+const scoresApi = {
+  fetchScores(majorId, simSeed) {
+    if (majorId === 'masters') return Promise.resolve(JSON.parse(JSON.stringify(MASTERS_2026_RESULTS)));
+    if (majorId === 'pga-championship') return Promise.resolve(JSON.parse(JSON.stringify(PGA_2026_ODDS)));
+    if (majorId === 'us-open') return Promise.resolve(JSON.parse(JSON.stringify(US_OPEN_2025_RESULTS)));
+    if (majorId === 'the-open') return Promise.resolve(JSON.parse(JSON.stringify(OPEN_2025_RESULTS)));
+    return Promise.resolve(generateMockScores(majorId, simSeed||0));
+  },
+};
+
+// ============================================================================
+// HELPERS
+// ============================================================================
+
+function formatScore(n) {
+  if (n === 0 || n === undefined || n === null || isNaN(n)) return 'E';
+  return n > 0 ? '+'+n : ''+n;
+}
+function scoreColor(n) {
+  if (n === 0 || n == null) return 'text-score-neutral';
+  return n < 0 ? 'text-score-good' : 'text-score-bad';
+}
+function scoreBg(n) {
+  if (n === 0 || n == null) return 'pill pill-stone';
+  return n < 0 ? 'pill pill-green' : 'pill pill-red';
+}
+function ScoreText({ value, className, strong }) {
+  return <span className={scoreColor(value)+' '+(strong?'font-mono-num':'font-semibold')+' tabular-nums '+(className||'')}>{formatScore(value)}</span>;
+}
+function lastName(name) { return name.split(' ').slice(-1)[0]; }
+function avatarColor(name) {
+  const colors = ['#15803d','#a16207','#1d4ed8','#9f1239','#7c2d12','#581c87','#155e75','#b91c1c','#0e7490','#7e22ce','#0d9488'];
+  let h=0; for (let i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) >>> 0;
+  return colors[h % colors.length];
+}
+function teamMood(rank, total, complete) {
+  if (!complete) return null;
+  if (rank === 1) return { label:'LEADER', color:'yellow' };
+  return null;
+}
+function tournamentLeader(scores) {
+  let best = null;
+  Object.entries(scores).forEach(([name,s]) => { if (!best || s.total < best.total) best = { name, total:s.total, status:s.status, posLabel:s.posLabel }; });
+  return best;
+}
+
+// ============================================================================
+// STORAGE & STATE
+// ============================================================================
+
+const STORAGE_KEY = 'majorPoolTracker.v12';
+const memoryStore = {};
+function readStore() { try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) return JSON.parse(raw); } catch(e) {} return memoryStore.data || null; }
+function writeStore(data) { memoryStore.data = data; try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {} }
+
+function defaultMajorState(majorId) {
+  if (majorId === 'masters') {
+    return { poolMembers:[...MASTERS_POOL], drafts:JSON.parse(JSON.stringify(MASTERS_DRAFTS)), draftOrder:[...MASTERS_POOL], picksPerTeam:5, bestPicksCount:4, scoreSeed:7, lastUpdated:MASTERS_FINAL_TS, isFinal:true, manualScores:{} };
+  }
+  if (majorId === 'pga-championship') {
+    return { poolMembers:[...DEFAULT_POOL], drafts:{}, draftOrder:[...DEFAULT_POOL], picksPerTeam:4, scoreSeed:0, lastUpdated:Date.now(), isFinal:false, oddsMode:true, oddsSource:{ name:'FanDuel', url:'https://www.cbssports.com/golf/news/2026-pga-championship-odds-date-course-field-golf-best-bets-picks-predictions-golfers-futures/', label:'via CBS Sports' }, manualScores:{} };
+  }
+  if (majorId === 'us-open') {
+    return { poolMembers:[...DEFAULT_POOL], drafts:{}, draftOrder:[...DEFAULT_POOL], picksPerTeam:4, scoreSeed:0, lastUpdated:Date.UTC(2025,5,15,22,30), isFinal:true, priorYear:2025, manualScores:{} };
+  }
+  if (majorId === 'the-open') {
+    return { poolMembers:[...DEFAULT_POOL], drafts:{}, draftOrder:[...DEFAULT_POOL], picksPerTeam:4, scoreSeed:0, lastUpdated:Date.UTC(2025,6,20,18,30), isFinal:true, priorYear:2025, manualScores:{} };
+  }
+  return { poolMembers:[...DEFAULT_POOL], drafts:{}, draftOrder:[...DEFAULT_POOL], picksPerTeam:4, scoreSeed:0, lastUpdated:Date.now(), isFinal:false, manualScores:{} };
+}
+
+function defaultAppState() {
+  const majorsState = {};
+  MAJORS.forEach(m => { majorsState[m.id] = defaultMajorState(m.id); });
+  return { majorsState, activeMajorId:'pga-championship', version:8 };
+}
+
+function getDraftedNames(ms) {
+  const out = new Set();
+  Object.values(ms.drafts || {}).forEach(arr => (arr||[]).forEach(n => out.add(n)));
+  return out;
+}
+function getOwnerOf(ms) {
+  const out = {};
+  Object.entries(ms.drafts || {}).forEach(([m, picks]) => (picks||[]).forEach(g => { out[g] = m; }));
+  return out;
+}
+function getAvailableGolfers(ms) {
+  const drafted = getDraftedNames(ms);
+  return FIELD.filter(g => !drafted.has(g));
+}
+function isDraftComplete(ms) {
+  const need = ms.poolMembers.length * ms.picksPerTeam;
+  return getDraftedNames(ms).size >= need;
+}
+function getCurrentDrafter(ms) {
+  if (isDraftComplete(ms)) return null;
+  const order = ms.draftOrder;
+  if (!order.length) return null;
+  for (let r=0; r<ms.picksPerTeam; r++) {
+    for (let i=0; i<order.length; i++) {
+      const m = order[i];
+      const picks = ms.drafts[m] || [];
+      if (picks.length <= r) return { name:m, round:r+1, pickNumber:r*order.length + i + 1 };
+    }
+  }
+  return null;
+}
+function applyManualScore(s, m) { return m ? Object.assign({}, s, m) : s; }
+function computeStandings(ms, rawScores) {
+  const N = ms.bestPicksCount || ms.picksPerTeam;
+  const teams = ms.poolMembers.map(member => {
+    const picks = ms.drafts[member] || [];
+    const golfers = picks.map(name => {
+      const raw = rawScores[name] || { total:0, round:0, status:'—', thru:0, posLabel:'—' };
+      return Object.assign({ name }, applyManualScore(raw, ms.manualScores[name]));
+    });
+    const eff = g => (g && typeof g.points === 'number') ? g.points : (g.total||0);
+    let total = 0;
+    if (golfers.length === ms.picksPerTeam && N < ms.picksPerTeam) {
+      const idx = golfers.map((g,i) => ({ idx:i, score:eff(g) })).sort((a,b) => a.score-b.score);
+      total = idx.slice(0,N).reduce((s,e) => s+e.score, 0);
+      const dropped = new Set(idx.slice(N).map(e => e.idx));
+      golfers.forEach((g,i) => { if (dropped.has(i)) g.dropped = true; });
+    } else {
+      total = golfers.reduce((s,g) => s + eff(g), 0);
+    }
+    return { member, golfers, total, complete:picks.length === ms.picksPerTeam, picksPerTeam:ms.picksPerTeam, bestPicksCount:N };
+  });
+  const sorted = [...teams].sort((a,b) => { if (a.complete !== b.complete) return a.complete ? -1 : 1; return a.total - b.total; });
+  let lt=null, lr=0;
+  sorted.forEach((t,i) => { if (!t.complete) { t.rank='—'; return; } if (t.total !== lt) { lr=i+1; lt=t.total; } t.rank=lr; });
+  return sorted;
+}
+
+function appReducer(state, action) {
+  const ns = JSON.parse(JSON.stringify(state));
+  switch (action.type) {
+    case 'PICK': { const ms = ns.majorsState[action.majorId]; if (getDraftedNames(ms).has(action.golfer)) return state; ms.drafts[action.member] = ms.drafts[action.member]||[]; ms.drafts[action.member].push(action.golfer); ms.lastUpdated=Date.now(); return ns; }
+    case 'UNPICK': { const ms = ns.majorsState[action.majorId]; ms.drafts[action.member] = (ms.drafts[action.member]||[]).filter(g => g!==action.golfer); ms.lastUpdated=Date.now(); return ns; }
+    case 'RESET_DRAFT': { const ms = ns.majorsState[action.majorId]; ms.drafts = {}; ms.lastUpdated=Date.now(); return ns; }
+    case 'ADD_MEMBER': { MAJORS.forEach(m => { const ms = ns.majorsState[m.id]; if (!ms.poolMembers.includes(action.name)) { ms.poolMembers.push(action.name); ms.draftOrder.push(action.name); } }); return ns; }
+    case 'REMOVE_MEMBER': { MAJORS.forEach(m => { const ms = ns.majorsState[m.id]; ms.poolMembers = ms.poolMembers.filter(n => n!==action.name); ms.draftOrder = ms.draftOrder.filter(n => n!==action.name); delete ms.drafts[action.name]; }); return ns; }
+    case 'SET_ACTIVE_MAJOR': ns.activeMajorId = action.majorId; return ns;
+    case 'SIMULATE_UPDATE': { const ms = ns.majorsState[action.majorId]; ms.scoreSeed = (ms.scoreSeed||0)+1; ms.lastUpdated=Date.now(); return ns; }
+    case 'SET_MANUAL_SCORE': { const ms = ns.majorsState[action.majorId]; ms.manualScores[action.golfer] = action.score; ms.lastUpdated=Date.now(); return ns; }
+    case 'CLEAR_MANUAL_SCORE': { const ms = ns.majorsState[action.majorId]; delete ms.manualScores[action.golfer]; ms.lastUpdated=Date.now(); return ns; }
+    case 'MOVE_DRAFTER': {
+      const ms = ns.majorsState[action.majorId];
+      const order = [...ms.draftOrder];
+      const idx = order.indexOf(action.name);
+      if (idx < 0) return state;
+      const swap = action.direction === 'up' ? idx - 1 : idx + 1;
+      if (swap < 0 || swap >= order.length) return state;
+      [order[idx], order[swap]] = [order[swap], order[idx]];
+      ms.draftOrder = order;
+      ms.lastUpdated = Date.now();
+      return ns;
+    }
+    case 'SHUFFLE_DRAFT_ORDER': {
+      const ms = ns.majorsState[action.majorId];
+      const order = [...ms.draftOrder];
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+      ms.draftOrder = order;
+      ms.lastUpdated = Date.now();
+      return ns;
+    }
+    case 'SET_DRAFT_ORDER': {
+      const ms = ns.majorsState[action.majorId];
+      ms.draftOrder = [...action.order];
+      ms.lastUpdated = Date.now();
+      return ns;
+    }
+    case 'RESET_ALL': return defaultAppState();
+    default: return state;
+  }
+}
+
+// ============================================================================
+// UI PRIMITIVES
+// ============================================================================
+
+function Card({ className, children, glass, ...rest }) {
+  return <div {...rest} className={(glass?'glass':'surface')+' '+(className||'')}>{children}</div>;
+}
+
+function Button({ children, variant, size, className, ...rest }) {
+  variant = variant || 'primary'; size = size || 'md';
+  const sz = { sm:'px-3 py-1.5 text-xs', md:'px-4 py-2.5 text-sm', lg:'px-5 py-3 text-sm' };
+  const v = { primary:'btn-primary', secondary:'btn-primary', accent:'btn-accent', gold:'btn-accent', ghost:'btn-ghost', danger:'btn-danger' };
+  return <button {...rest} className={'btn-base '+sz[size]+' '+v[variant]+' disabled:opacity-40 disabled:cursor-not-allowed '+(className||'')}>{children}</button>;
+}
+
+function Pill({ children, color, className }) {
+  color = color || 'stone';
+  const c = { stone:'pill-stone', fairway:'pill-green', yellow:'pill-gold', rose:'pill-red', blue:'pill-blue', dark:'pill-dark' };
+  return <span className={'pill '+c[color]+' '+(className||'')}>{children}</span>;
+}
+
+function GolfBallIcon({ className, style }) {
+  return <svg viewBox="0 0 24 24" className={className} style={style} fill="currentColor"><circle cx="12" cy="12" r="9" fill="currentColor"/><circle cx="9.5" cy="10.5" r="0.7" fill="rgba(0,0,0,0.4)"/><circle cx="14" cy="10" r="0.7" fill="rgba(0,0,0,0.4)"/><circle cx="11" cy="13.5" r="0.7" fill="rgba(0,0,0,0.4)"/><circle cx="13.5" cy="14" r="0.7" fill="rgba(0,0,0,0.4)"/></svg>;
+}
+function FlagIcon({ className }) {
+  return <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 21V4"/><path d="M5 4 H17 L14 8 L17 12 H5" fill="currentColor" stroke="none"/></svg>;
+}
+function TrophyIcon({ className }) {
+  return <svg viewBox="0 0 24 24" className={className} fill="currentColor"><path d="M8 4h8v3a4 4 0 11-8 0V4z"/><path d="M5 5h2v2a2 2 0 11-2-2zm12 0h2a2 2 0 11-2 2V5z" opacity="0.6"/><path d="M9 12h6l-.5 4h-5L9 12zm-1 5h8v2H8v-2z"/></svg>;
+}
+function Medal({ rank, className }) {
+  const colors = { 1:'linear-gradient(135deg,#f5c518 0%,#ca8a04 100%)', 2:'linear-gradient(135deg,#cbd5e1 0%,#94a3b8 100%)', 3:'linear-gradient(135deg,#fdba74 0%,#b45309 100%)' };
+  return <span className={'inline-flex items-center justify-center w-5 h-5 rounded-full text-white text-[10px] font-bold flex-shrink-0 shadow-sm ring-1 ring-white/20 '+(className||'')} style={{background: colors[rank]}}>{rank}</span>;
+}
+function SectionHeader({ title, subtitle, action }) {
+  return (
+    <div className="flex items-end justify-between gap-2 mb-3">
+      <div>
+        <div className="w-8 h-px mb-2.5" style={{background:'var(--accent-gold)'}}/>
+        <h2 className="font-headline text-xl sm:text-2xl uppercase leading-tight" style={{color:'var(--text-1)'}}>{title}</h2>
+        {subtitle && <div className="text-xs mt-0.5" style={{color:'var(--text-2)'}}>{subtitle}</div>}
+      </div>
+      {action}
+    </div>
+  );
+}
+
+// ============================================================================
+// NAVBAR
+// ============================================================================
+
+function Navbar({ page, onNav, activeMajorId }) {
+  const items = [
+    { id:'home', label:'Home' },
+    ...MAJORS.map(m => ({ id:m.id, label:m.short, isActive: m.id === activeMajorId })),
+    { id:'admin', label:'Admin' },
+  ];
+  return (
+    <header className="sticky top-0 z-40 glass-strong">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center gap-4">
+        <button onClick={() => onNav('home')} className="flex items-center gap-2.5 group flex-shrink-0">
+          <div className="w-9 h-9 grid place-items-center rounded-md" style={{background:'linear-gradient(180deg,#4ade80 0%,#16a34a 100%)', boxShadow:'0 0 0 1px rgba(0,0,0,0.4) inset, 0 6px 16px rgba(74,222,128,0.25)'}}>
+            <GolfBallIcon className="w-5 h-5" style={{color:'#06140d'}}/>
+          </div>
+          <div className="hidden sm:block leading-none">
+            <div className="font-headline text-base uppercase" style={{color:'var(--text-1)', letterSpacing:'0.02em'}}>MAJOR POOL</div>
+            <div className="font-ticker text-[11px] mt-1" style={{color:'var(--text-3)'}}>2026 SEASON</div>
+          </div>
+        </button>
+        <nav className="flex-1 flex items-center gap-0.5 overflow-x-auto no-scrollbar pl-2">
+          {items.map(it => {
+            const active = it.id === page;
+            return (
+              <button key={it.id} onClick={() => onNav(it.id)}
+                className="relative whitespace-nowrap px-3.5 py-2 rounded-md text-[13px] font-semibold transition-all"
+                style={{ color: active?'var(--text-1)':'var(--text-2)', background: active?'rgba(74,222,128,0.10)':'transparent', border:'1px solid '+(active?'rgba(74,222,128,0.25)':'transparent') }}>
+                {it.label}
+                {it.isActive && <span className="ml-1.5 inline-block w-1.5 h-1.5 rounded-full bg-fairway-500 animate-pulse-soft align-middle"/>}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+// ============================================================================
+// HOME PAGE
+// ============================================================================
+
+function HomePage({ state, scores, onNav }) {
+  const activeMajor = MAJORS.find(m => m.id === state.activeMajorId);
+  const activeMajorState = state.majorsState[state.activeMajorId];
+  const activeScores = scores[state.activeMajorId] || {};
+  const standings = useMemo(() => computeStandings(activeMajorState, activeScores), [activeMajorState, activeScores]);
+  const tLeader = useMemo(() => tournamentLeader(activeScores), [activeScores]);
+  const oddsList = useMemo(() => activeMajorState.oddsMode ? Object.entries(activeScores).map(([n,s]) => ({name:n, ...s})).filter(r => typeof r.oddsValue==='number').sort((a,b) => a.oddsValue-b.oddsValue) : null, [activeScores, activeMajorState.oddsMode]);
+
+  return (
+    <main className="animate-fade-in">
+      <section className="hero-cinema theme-masters">
+        <div className="absolute -bottom-1 left-0 right-0 h-20 pointer-events-none" style={{background:'linear-gradient(180deg, transparent 0%, var(--bg-0) 100%)'}}/>
+        <div className="max-w-6xl mx-auto px-4 pt-16 sm:pt-24 pb-20 sm:pb-32 relative">
+          <div className="font-ticker text-xs flex items-center gap-2.5 mb-5" style={{color:'var(--accent-green)'}}>
+            <span className="inline-block w-6 h-px" style={{background:'var(--accent-green)'}}/>
+            {activeMajorState.oddsMode ? 'UP NEXT · '+activeMajor.short.toUpperCase() : (activeMajorState.isFinal ? activeMajor.short.toUpperCase()+' · FINAL' : activeMajor.short.toUpperCase()+' · LIVE')}
+          </div>
+          <h1 className="font-headline text-[14vw] sm:text-[112px] leading-[0.88] uppercase">
+            <div className="green-text">Major Pool</div>
+          </h1>
+          <p className="text-base mt-6 max-w-xl leading-relaxed" style={{color:'var(--text-2)'}}>
+            Four major championships. 14 members. Best 4 of 5 picks count. Lowest team score wins.
+          </p>
+          <div className="flex flex-wrap gap-3 mt-9">
+            <Button variant="accent" size="lg" onClick={() => onNav(activeMajor.id)}>
+              {activeMajorState.priorYear ? activeMajor.short.toUpperCase()+' · 2025 RESULTS' : activeMajorState.oddsMode ? 'OPEN '+activeMajor.short.toUpperCase()+' ODDS' : (activeMajorState.isFinal ? activeMajor.short.toUpperCase()+' RESULTS' : activeMajor.short.toUpperCase()+' LIVE')} →
+            </Button>
+            <Button variant="primary" size="lg" onClick={() => onNav('admin')}>Admin</Button>
+          </div>
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-4xl">
+            {MAJORS.map(m => {
+              const ms = state.majorsState[m.id];
+              const isAct = m.id === state.activeMajorId;
+              const status = ms.priorYear ? String(ms.priorYear) : ms.isFinal ? 'FINAL' : ms.oddsMode ? 'UPCOMING' : isAct ? 'LIVE' : 'PRE';
+              const statusColor = ms.priorYear ? '#f5b842' : ms.isFinal ? '#9da3ad' : ms.oddsMode ? '#f5b842' : isAct ? '#4ade80' : '#5d646e';
+              return (
+                <button key={m.id} onClick={() => onNav(m.id)} className="text-left px-3.5 py-3 rounded-md transition lift" style={{background:'rgba(255,255,255,0.03)', border:'1px solid '+(isAct?'rgba(74,222,128,0.30)':'var(--border)')}}>
+                  <div className="flex items-center justify-between">
+                    <span className="font-ticker text-xs" style={{color:'var(--text-1)'}}>{m.short.toUpperCase()}</span>
+                    <span className="font-ticker text-[10px]" style={{color:statusColor}}>{status}</span>
+                  </div>
+                  <div className="text-[11px] mt-1 truncate" style={{color:'var(--text-2)'}}>{m.dates.replace(', 2026','')}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="max-w-6xl mx-auto px-4 -mt-10 relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {MAJORS.map(m => {
+            const isActive = m.id === state.activeMajorId;
+            const ms = state.majorsState[m.id];
+            const drafted = getDraftedNames(ms).size;
+            const total = ms.poolMembers.length * ms.picksPerTeam;
+            return (
+              <button key={m.id} onClick={() => onNav(m.id)} className="text-left group">
+                <Card className={'h-full overflow-hidden lift relative theme-'+(m.theme.key)}>
+                  <div className="aspect-[4/2.4] sm:aspect-[4/2.2] relative overflow-hidden">
+                    <div className="absolute inset-0" style={{background:'var(--theme-base, linear-gradient(135deg,#0d1218 0%,#080b10 100%))'}}/>
+                    <div className="absolute inset-0" style={{background:'radial-gradient(80% 60% at 70% 20%, var(--theme-glow, rgba(74,222,128,0.18)) 0%, transparent 60%)'}}/>
+                    <div className="absolute inset-0 dimples opacity-30"/>
+                    <div className="absolute inset-0 grid place-items-center">
+                      <div className="font-headline text-7xl sm:text-8xl uppercase opacity-95" style={{color:'var(--text-1)', textShadow:'0 4px 24px rgba(0,0,0,0.4)'}}>{m.short.split(' ')[0].slice(0,3).toUpperCase()}</div>
+                    </div>
+                    <div className="absolute bottom-2.5 left-3 right-3 flex items-end justify-between">
+                      <div className="font-ticker text-[10px] truncate" style={{color:'var(--theme-accent, #4ade80)'}}>{m.theme.eyebrow}</div>
+                    </div>
+                    {ms.priorYear && <div className="absolute top-2.5 right-2.5 pill pill-gold font-ticker text-[10px]">{ms.priorYear}</div>}
+                    {!ms.priorYear && isActive && ms.oddsMode && <div className="absolute top-2.5 right-2.5 pill pill-gold font-ticker text-[10px]">UPCOMING</div>}
+                    {!ms.priorYear && isActive && !ms.oddsMode && !ms.isFinal && <div className="absolute top-2.5 right-2.5 pill pill-green font-ticker text-[10px]"><span className="w-1.5 h-1.5 rounded-full bg-fairway-500 animate-pulse-soft"/>LIVE</div>}
+                    {!ms.priorYear && !isActive && ms.isFinal && <div className="absolute top-2.5 right-2.5 pill pill-dark font-ticker text-[10px]">FINAL</div>}
+                  </div>
+                  <div className="p-3.5 sm:p-4">
+                    <div className="font-display text-base sm:text-lg leading-tight" style={{color:'var(--text-1)'}}>{m.name}</div>
+                    <div className="text-[11px] mt-0.5" style={{color:'var(--text-2)'}}>{m.dates} · {m.course.replace(' G.C.','')}</div>
+                    <div className="flex items-center justify-between mt-3 pt-2.5" style={{borderTop:'1px solid var(--border)'}}>
+                      <span className="font-ticker text-[10px]" style={{color:'var(--text-3)'}}>PICKS</span>
+                      <span className="font-mono-num text-base" style={{color: drafted===total?'var(--accent-green)':'var(--text-1)'}}>{drafted}/{total}</span>
+                    </div>
+                  </div>
+                </Card>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="max-w-6xl mx-auto px-4 mt-10 sm:mt-14 mb-16">
+        <div className="grid lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="lg:col-span-2">
+            <SectionHeader title="POOL STANDINGS" subtitle={'Active tournament: '+activeMajor.short}/>
+            <PoolLeaderboard standings={standings} compact onMemberClick={() => onNav(activeMajor.id)}/>
+            <div className="text-center mt-4">
+              <Button variant="primary" onClick={() => onNav(activeMajor.id)}>Full leaderboard →</Button>
+            </div>
+          </div>
+          <div>
+            <SectionHeader title={activeMajorState.oddsMode?'OUTRIGHT FAVORITE':'TOURNAMENT LEADER'} subtitle={activeMajorState.oddsMode?'Lowest odds in the field':'Lowest score in the field'}/>
+            <Card className="p-6 text-center" style={{background:'linear-gradient(135deg, rgba(74,222,128,0.06) 0%, rgba(0,0,0,0) 70%), var(--surface)'}}>
+              {activeMajorState.oddsMode ? (
+                oddsList && oddsList[0] ? (
+                  <>
+                    <div className="font-ticker text-[11px] flex items-center justify-center gap-1.5" style={{color:'var(--accent-green)'}}>
+                      <TrophyIcon className="w-3.5 h-3.5"/> OUTRIGHT FAVORITE
+                    </div>
+                    <div className="font-headline text-3xl uppercase mt-3 leading-tight" style={{color:'var(--text-1)'}}>{oddsList[0].name}</div>
+                    <div className="font-mono-num text-5xl mt-3 green-text">{oddsList[0].odds}</div>
+                    <div className="text-xs mt-1.5" style={{color:'var(--text-2)'}}>FanDuel · pre-tournament</div>
+                  </>
+                ) : <div className="text-sm py-6" style={{color:'var(--text-3)'}}>Odds loading…</div>
+              ) : tLeader ? (
+                <>
+                  <div className="font-ticker text-[11px] flex items-center justify-center gap-1.5" style={{color:'var(--accent-green)'}}>
+                    <TrophyIcon className="w-3.5 h-3.5"/> LEADING THE FIELD
+                  </div>
+                  <div className="font-headline text-3xl uppercase mt-3 leading-tight" style={{color:'var(--text-1)'}}>{tLeader.name}</div>
+                  <div className="font-mono-num text-5xl mt-3 green-text">{formatScore(tLeader.total)}</div>
+                  <div className="text-xs mt-1.5" style={{color:'var(--text-2)'}}>{tLeader.posLabel} · {tLeader.status}</div>
+                </>
+              ) : <div className="text-sm py-6" style={{color:'var(--text-3)'}}>No scores yet.</div>}
+            </Card>
+            <div className="mt-3">
+              <Button variant="accent" onClick={() => onNav(activeMajor.id, 'live')} className="w-full">
+                OPEN {activeMajor.short.toUpperCase()} {activeMajorState.oddsMode ? 'ODDS' : 'LIVE'} →
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+// ============================================================================
+// POOL LEADERBOARD
+// ============================================================================
+
+function PoolLeaderboard({ standings, compact, onMemberClick }) {
+  if (!standings || standings.length === 0) return null;
+  return (
+    <Card className="overflow-hidden">
+      <div className="grid grid-cols-12 px-4 py-3 font-ticker text-[11px]" style={{background:'rgba(0,0,0,0.4)', color:'var(--text-2)', borderBottom:'1px solid var(--border)'}}>
+        <div className="col-span-1">POS</div>
+        <div className="col-span-7">PLAYER</div>
+        <div className="col-span-2 text-right">PICKS</div>
+        <div className="col-span-2 text-right">SCORE</div>
+      </div>
+      <div>
+        {standings.map((t) => {
+          const pcls = t.complete && t.rank===1 ? 'podium-1' : t.complete && t.rank===2 ? 'podium-2' : t.complete && t.rank===3 ? 'podium-3' : '';
+          return (
+            <div key={t.member} className={pcls}>
+              <button onClick={() => onMemberClick && onMemberClick(t.member)}
+                className="w-full grid grid-cols-12 items-center px-4 py-3 transition-colors text-left"
+                style={{borderBottom:'1px solid var(--border)'}}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.025)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+                <div className="col-span-1 flex items-center gap-2">
+                  {t.complete && t.rank<=3 ? <Medal rank={t.rank}/> : <span className="font-mono-num text-xl" style={{color:'var(--text-2)'}}>{t.rank}</span>}
+                </div>
+                <div className="col-span-7 flex items-center gap-3 min-w-0 pl-1">
+                  <div className="w-9 h-9 rounded-md grid place-items-center font-semibold text-sm flex-shrink-0" style={{background:avatarColor(t.member), color:'#fff', boxShadow:'0 0 0 1px rgba(255,255,255,0.08)'}}>{t.member[0]}</div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="truncate font-semibold text-[15px]" style={{color:'var(--text-1)'}}>{t.member}</span>
+                      {(() => { const m = teamMood(t.rank, standings.length, t.complete); return m ? <Pill color={m.color}>{m.label}</Pill> : null; })()}
+                    </div>
+                    <div className="text-xs truncate mt-0.5" style={{color:'var(--text-3)'}}>{t.golfers.length===0 ? 'No picks yet' : t.golfers.map(g => lastName(g.name)).join(' · ')}</div>
+                  </div>
+                </div>
+                <div className="col-span-2 text-right font-mono-num text-sm" style={{color:'var(--text-2)'}}>{t.golfers.length}/{t.picksPerTeam || 4}</div>
+                <div className="col-span-2 text-right">
+                  {t.complete ? <ScoreText value={t.total} strong className="font-mono-num text-2xl"/> : <span style={{color:'var(--text-3)'}}>—</span>}
+                </div>
+              </button>
+              {!compact && t.golfers.length > 0 && (
+                <div className="px-4 pb-3 grid sm:grid-cols-2 gap-2" style={{background:'rgba(0,0,0,0.18)'}}>
+                  {t.golfers.map(g => <GolferRow key={g.name} g={g} dropped={g.dropped}/>)}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </Card>
+  );
+}
+
+function GolferRow({ g, dropped }) {
+  return (
+    <div className={'flex items-center justify-between gap-2 px-3 py-2 rounded-md '+(dropped?'opacity-40':'')} style={{background:'rgba(255,255,255,0.025)', border:'1px solid var(--border)'}}>
+      <div className="min-w-0 flex-1">
+        <div className="font-medium text-sm truncate flex items-center gap-1.5" style={{color:'var(--text-1)'}}>
+          <span className="truncate">{g.name}</span>
+          {dropped && <span className="font-ticker text-[10px] flex-shrink-0" style={{color:'var(--text-3)'}}>DROP</span>}
+        </div>
+        <div className="text-[11px] truncate" style={{color:'var(--text-3)'}}>{g.posLabel} · {g.status}</div>
+      </div>
+      <div className="text-right flex-shrink-0">
+        <ScoreText value={(typeof g.points==='number')?g.points:g.total} className="font-mono-num text-base"/>
+        <div className="text-[10px] tabular-nums" style={{color:'var(--text-3)'}}>
+          {g.thru>=18 || g.thru===36 ? <span>raw {formatScore(g.total)}</span> : <span className={scoreColor(g.round)}>{formatScore(g.round)} rd</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// TOURNAMENT LEADERBOARD / ODDS BOARD
+// ============================================================================
+
+function TournamentLeaderboard({ scores, ownerOf, limit, oddsMode }) {
+  limit = limit || 24;
+  const rows = useMemo(() => {
+    const all = Object.entries(scores).map(([n,s]) => ({ name:n, ...s }));
+    if (oddsMode) return all.filter(r => typeof r.oddsValue==='number').sort((a,b) => a.oddsValue-b.oddsValue).slice(0,limit);
+    return all.sort((a,b) => a.total-b.total).slice(0,limit);
+  }, [scores, limit, oddsMode]);
+  if (rows.length === 0) return <Card className="p-6 text-center text-sm" style={{color:'var(--text-3)'}}>{oddsMode?'Odds loading…':'No live scores yet.'}</Card>;
+  if (oddsMode) {
+    const implied = v => 100/(v+100);
+    return (
+      <Card className="overflow-hidden">
+        <div className="grid grid-cols-12 px-3 py-2.5 font-ticker text-[11px]" style={{background:'rgba(0,0,0,0.4)', color:'var(--text-2)', borderBottom:'1px solid var(--border)'}}>
+          <div className="col-span-2">RK</div><div className="col-span-6">PLAYER</div><div className="col-span-2 text-right">IMP %</div><div className="col-span-2 text-right">ODDS</div>
+        </div>
+        <div className="max-h-[640px] overflow-y-auto">
+          {rows.map((r,i) => (
+            <div key={r.name} className="grid grid-cols-12 items-center px-3 py-2 text-sm transition-colors" style={{borderBottom:'1px solid var(--border)'}}
+              onMouseEnter={(e)=> e.currentTarget.style.background='rgba(255,255,255,0.025)'} onMouseLeave={(e)=> e.currentTarget.style.background='transparent'}>
+              <div className="col-span-2 flex items-center gap-1.5">
+                {i<3 ? <Medal rank={i+1}/> : <span className="font-mono-num text-sm pl-1" style={{color:'var(--text-2)'}}>{i+1}</span>}
+              </div>
+              <div className="col-span-6 min-w-0"><div className="truncate font-medium" style={{color:'var(--text-1)'}}>{r.name}</div></div>
+              <div className="col-span-2 text-right text-xs font-mono-num" style={{color:'var(--text-2)'}}>{(implied(r.oddsValue)*100).toFixed(1)}%</div>
+              <div className="col-span-2 text-right font-mono-num text-sm" style={{color:'var(--accent-green)'}}>{r.odds}</div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    );
+  }
+  return (
+    <Card className="overflow-hidden">
+      <div className="grid grid-cols-12 px-3 py-2.5 font-ticker text-[11px]" style={{background:'rgba(0,0,0,0.4)', color:'var(--text-2)', borderBottom:'1px solid var(--border)'}}>
+        <div className="col-span-2">POS</div><div className="col-span-5">PLAYER</div><div className="col-span-2 text-right">R</div><div className="col-span-3 text-right">TOTAL · THRU</div>
+      </div>
+      <div className="max-h-[640px] overflow-y-auto">
+        {rows.map((r,i) => {
+          const owner = ownerOf[r.name];
+          return (
+            <div key={r.name} className="grid grid-cols-12 items-center px-3 py-2 text-sm transition-colors" style={{borderBottom:'1px solid var(--border)', background:owner?'rgba(74,222,128,0.04)':'transparent'}}
+              onMouseEnter={(e)=> e.currentTarget.style.background = owner?'rgba(74,222,128,0.08)':'rgba(255,255,255,0.025)'}
+              onMouseLeave={(e)=> e.currentTarget.style.background = owner?'rgba(74,222,128,0.04)':'transparent'}>
+              <div className="col-span-2 flex items-center gap-1.5">
+                {i<3 ? <Medal rank={i+1}/> : <span className="font-mono-num text-sm pl-1" style={{color:'var(--text-2)'}}>{r.posLabel}</span>}
+              </div>
+              <div className="col-span-5 min-w-0">
+                <div className="font-medium truncate" style={{color:'var(--text-1)'}}>{r.name}</div>
+                {owner && <div className="text-[10px] flex items-center gap-1 mt-0.5" style={{color:'var(--accent-green)'}}>
+                  <span className="w-3 h-3 rounded-sm text-white text-[8px] font-bold grid place-items-center flex-shrink-0" style={{background:avatarColor(owner)}}>{owner[0]}</span><span className="truncate">{owner}</span>
+                </div>}
+              </div>
+              <div className="col-span-2 text-right text-xs font-mono-num"><span className={scoreColor(r.round)}>{formatScore(r.round)}</span></div>
+              <div className="col-span-3 text-right">
+                <ScoreText value={r.total} className="font-mono-num text-base"/>
+                <div className="text-[10px] truncate" style={{color:'var(--text-3)'}}>{r.status}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </Card>
+  );
+}
+
+// ============================================================================
+// STATS STRIP
+// ============================================================================
+
+function StatCard({ label, value, sub, accent, icon }) {
+  return (
+    <Card className="p-4">
+      <div className="flex items-center gap-1.5 font-ticker text-[10px]" style={{color:'var(--text-3)'}}>{icon} {label}</div>
+      <div className={'font-mono-num text-2xl sm:text-[28px] mt-1.5 truncate leading-tight '+(accent||'')} style={!accent?{color:'var(--text-1)'}:{}}>{value}</div>
+      {sub && <div className="text-xs mt-1 truncate" style={{color:'var(--text-2)'}}>{sub}</div>}
+    </Card>
+  );
+}
+function StatsStrip({ majorId, ms, standings, scores, dispatch }) {
+  const completed = standings.filter(t => t.complete);
+  const poolLeader = completed[0];
+  const tLeader = useMemo(() => tournamentLeader(scores), [scores]);
+  const oddsList = useMemo(() => ms.oddsMode ? Object.entries(scores).map(([n,s])=>({name:n,...s})).filter(r => typeof r.oddsValue==='number').sort((a,b)=>a.oddsValue-b.oddsValue) : null, [scores, ms.oddsMode]);
+  const fav = oddsList && oddsList[0];
+  const totalPicks = ms.poolMembers.length * ms.picksPerTeam;
+  const made = Array.from(getDraftedNames(ms)).length;
+  const draftLabel = made===totalPicks ? 'COMPLETE' : made===0 ? 'NOT STARTED' : Math.round((made/totalPicks)*100)+'% DONE';
+  const updatedTs = new Date(ms.lastUpdated).toLocaleTimeString([], { hour:'numeric', minute:'2-digit' });
+  return (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      {ms.oddsMode ? (
+        <StatCard label="OUTRIGHT FAV" value={fav?lastName(fav.name):'—'} sub={fav?<span className="font-semibold" style={{color:'var(--accent-green)'}}>{fav.odds}</span>:'—'} icon={<TrophyIcon className="w-3 h-3" style={{color:'var(--accent-gold)'}}/>}/>
+      ) : (
+        <StatCard label="POOL LEADER" value={poolLeader?poolLeader.member:'—'} sub={poolLeader?<span className={scoreColor(poolLeader.total)+' font-semibold'}>{formatScore(poolLeader.total)} team total</span>:'No complete teams'} icon={<TrophyIcon className="w-3 h-3" style={{color:'var(--accent-gold)'}}/>}/>
+      )}
+      {ms.oddsMode ? (
+        <StatCard label="FIELD" value={oddsList?oddsList.length:'—'} sub="WITH POSTED ODDS" icon={<FlagIcon className="w-3 h-3" style={{color:'var(--accent-green)'}}/>}/>
+      ) : (
+        <StatCard label="TOURNAMENT LEADER" value={tLeader?lastName(tLeader.name):'—'} sub={tLeader?<span className={scoreColor(tLeader.total)+' font-semibold'}>{formatScore(tLeader.total)} · {tLeader.status}</span>:'—'} icon={<FlagIcon className="w-3 h-3" style={{color:'var(--accent-green)'}}/>}/>
+      )}
+      <StatCard label="DRAFT" value={made+'/'+totalPicks} sub={draftLabel}/>
+      {ms.priorYear ? (
+        <StatCard label="PRIOR YEAR" value={String(ms.priorYear)} sub="LAST YEAR'S RESULTS"/>
+      ) : ms.isFinal ? (
+        <StatCard label="STATUS" value="FINAL" sub={'SUN APR 12 · '+new Date(ms.lastUpdated).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}/>
+      ) : ms.oddsMode ? (
+        <StatCard label="TEE OFF" value="MAY 14" sub="ARONIMINK · 5 DAYS"/>
+      ) : (
+        <StatCard label="UPDATED" value={updatedTs} sub={<button onClick={() => dispatch({type:'SIMULATE_UPDATE', majorId})} className="font-semibold hover:underline" style={{color:'var(--accent-green)'}}>Refresh now</button>}/>
+      )}
+    </div>
+  );
+}
+
+// ============================================================================
+// AVAILABLE GOLFERS / DRAFTED TEAMS / WHEEL
+// ============================================================================
+
+function GolferScoreCard({ name, score, action }) {
+  const total = (score && typeof score.total==='number') ? score.total : 0;
+  const posLabel = (score && score.posLabel) || '—';
+  const status = (score && score.status) || '—';
+  return (
+    <div className="flex items-center justify-between gap-3 p-3 rounded-lg transition-all" style={{background:'rgba(255,255,255,0.025)', border:'1px solid var(--border)'}}>
+      <div className="min-w-0 flex-1">
+        <div className="font-semibold text-sm truncate" style={{color:'var(--text-1)'}}>{name}</div>
+        <div className="flex items-center gap-2 mt-0.5">
+          <span className="font-mono-num text-[10px]" style={{color:'var(--text-3)'}}>{posLabel}</span>
+          <span className="text-[10px]" style={{color:'var(--text-3)'}}>·</span>
+          <span className="text-[10px] truncate" style={{color:'var(--text-2)'}}>{status}</span>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <div className={scoreBg(total)+' font-mono-num'}>{formatScore(total)}</div>
+        {action}
+      </div>
+    </div>
+  );
+}
+
+function AvailableGolfersList({ available, scores, onPick, currentDrafter, disabled }) {
+  const [filter, setFilter] = useState('');
+  const [sortBy, setSortBy] = useState('score');
+  const filtered = available.filter(g => g.toLowerCase().includes(filter.toLowerCase()));
+  const sorted = [...filtered].sort((a,b) => {
+    if (sortBy === 'score') {
+      const sa = (scores[a] && scores[a].total) || 0;
+      const sb = (scores[b] && scores[b].total) || 0;
+      if (sa !== sb) return sa - sb;
+    }
+    return a.localeCompare(b);
+  });
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <h3 className="font-headline text-xl uppercase" style={{color:'var(--text-1)'}}>Available</h3>
+        <div className="flex items-center gap-2">
+          <Pill color="stone">{available.length} LEFT</Pill>
+          {currentDrafter && <Pill color="fairway">FOR {currentDrafter.name.toUpperCase()}</Pill>}
+        </div>
+      </div>
+      <div className="flex gap-2 mb-3">
+        <input value={filter} onChange={e => setFilter(e.target.value)} placeholder="Search golfer…" className="flex-1"/>
+        <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+          <option value="score">By score</option>
+          <option value="name">By name</option>
+        </select>
+      </div>
+      {sorted.length === 0 ? (
+        <div className="text-center py-8 text-sm" style={{color:'var(--text-3)'}}>No golfers match.</div>
+      ) : (
+        <div className="grid sm:grid-cols-2 gap-2 max-h-[560px] overflow-y-auto pr-1">
+          {sorted.map(name => <GolferScoreCard key={name} name={name} score={scores[name]} action={<Button size="sm" disabled={disabled} onClick={() => onPick(name)}>DRAFT</Button>}/>)}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function DraftedTeams({ majorState, scores, onUndo }) {
+  const standings = useMemo(() => computeStandings(majorState, scores), [majorState, scores]);
+  const noPicks = majorState.poolMembers.every(m => !majorState.drafts[m] || majorState.drafts[m].length === 0);
+  return (
+    <Card className="p-4">
+      <h3 className="font-headline text-xl uppercase mb-3" style={{color:'var(--text-1)'}}>Drafted Teams</h3>
+      {noPicks ? (
+        <div className="text-center py-12">
+          <div className="font-headline text-2xl uppercase" style={{color:'var(--text-2)'}}>No picks yet</div>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {standings.map(t => (
+            <div key={t.member} className="rounded-lg overflow-hidden" style={{border:'1px solid var(--border)'}}>
+              <div className="flex items-center justify-between px-3 py-2 gap-2" style={{background:'rgba(255,255,255,0.025)'}}>
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-7 h-7 rounded-md grid place-items-center text-white text-xs font-semibold flex-shrink-0" style={{background:avatarColor(t.member), boxShadow:'0 0 0 1px rgba(255,255,255,0.06)'}}>{t.member[0]}</div>
+                  <div className="font-semibold text-sm truncate" style={{color:'var(--text-1)'}}>{t.member}</div>
+                  <Pill color="stone">{t.golfers.length}/{majorState.picksPerTeam}{majorState.bestPicksCount && majorState.bestPicksCount<majorState.picksPerTeam?' · best '+majorState.bestPicksCount:''}</Pill>
+                  {t.rank===1 && t.complete && <Pill color="yellow">★ LEADER</Pill>}
+                </div>
+                {t.complete && <ScoreText value={t.total} strong className="font-mono-num text-lg flex-shrink-0"/>}
+              </div>
+              {t.golfers.length === 0 ? (
+                <div className="px-3 py-3 text-xs" style={{color:'var(--text-3)'}}>No picks yet</div>
+              ) : (
+                <div>
+                  {t.golfers.map(g => (
+                    <div key={g.name} className={'flex items-center justify-between px-3 py-2 text-sm gap-2 '+(g.dropped?'opacity-40':'')} style={{borderTop:'1px solid var(--border)'}}>
+                      <div className="min-w-0 flex-1">
+                        <div className="font-medium truncate flex items-center gap-1.5" style={{color:'var(--text-1)'}}>
+                          <span className="truncate">{g.name}</span>
+                          {g.dropped && <span className="font-ticker text-[10px] flex-shrink-0" style={{color:'var(--text-3)'}}>DROP</span>}
+                        </div>
+                        <div className="text-[11px] truncate" style={{color:'var(--text-3)'}}>{g.posLabel} · {g.status}</div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        <span className="text-xs font-mono-num w-12 text-right" style={{color:'var(--text-3)'}}>{g.thru>=18||g.thru===36 ? formatScore(g.total)+' raw' : formatScore(g.round)+' rd'}</span>
+                        <ScoreText value={(typeof g.points==='number')?g.points:g.total} className="font-mono-num text-sm w-10 text-right inline-block"/>
+                        {onUndo && <button onClick={() => onUndo(t.member, g.name)} className="text-base px-1 leading-none transition" style={{color:'var(--text-3)'}} onMouseEnter={(e)=>e.currentTarget.style.color='var(--score-bad)'} onMouseLeave={(e)=>e.currentTarget.style.color='var(--text-3)'} title="Remove pick">×</button>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+function RandomizerWheel({ available, currentDrafter, onAssign }) {
+  const [rotation, setRotation] = useState(0);
+  const [spinning, setSpinning] = useState(false);
+  const [winner, setWinner] = useState(null);
+  const slices = available.length;
+  const slice = slices > 0 ? 360 / slices : 0;
+  const radius = 140, cx = 150, cy = 150;
+  function arcPath(i) {
+    if (slices === 1) return 'M '+cx+' '+(cy-radius)+' A '+radius+' '+radius+' 0 1 1 '+cx+' '+(cy+radius)+' A '+radius+' '+radius+' 0 1 1 '+cx+' '+(cy-radius)+' Z';
+    const start = i*slice - 90, end = (i+1)*slice - 90;
+    const sx = cx + radius * Math.cos(start * Math.PI / 180), sy = cy + radius * Math.sin(start * Math.PI / 180);
+    const ex = cx + radius * Math.cos(end * Math.PI / 180), ey = cy + radius * Math.sin(end * Math.PI / 180);
+    const large = slice > 180 ? 1 : 0;
+    return 'M '+cx+' '+cy+' L '+sx+' '+sy+' A '+radius+' '+radius+' 0 '+large+' 1 '+ex+' '+ey+' Z';
+  }
+  function handleSpin() {
+    if (spinning || slices === 0) return;
+    setWinner(null);
+    const idx = Math.floor(Math.random() * slices);
+    const sliceMid = idx*slice + slice/2;
+    const desired = (360 - sliceMid) % 360;
+    const current = ((rotation % 360) + 360) % 360;
+    const turns = 8 + Math.random()*2;
+    const delta = ((desired - current + 360) % 360) + turns*360;
+    setRotation(rotation + delta);
+    setSpinning(true);
+    setTimeout(() => { setSpinning(false); setWinner(available[idx]); }, 6500);
+  }
+  function assignWinner() { if (!winner || !currentDrafter) return; onAssign(currentDrafter.name, winner); setWinner(null); }
+  const sliceColors = ['#0d2818','#16352a','#1f4e3a','#2a6e4a','#3f9669','#1a2e22'];
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <div>
+          <div className="font-ticker text-[11px]" style={{color:'var(--text-3)'}}>RANDOM PICK</div>
+          <h3 className="font-headline text-2xl uppercase leading-tight" style={{color:'var(--text-1)'}}>Randomizer</h3>
+        </div>
+        <Pill color={currentDrafter?'fairway':'stone'}>{currentDrafter?'FOR '+currentDrafter.name.toUpperCase():'NO DRAFTER'}</Pill>
+      </div>
+      <div className="text-[11px] mb-3" style={{color:'var(--text-3)'}}>Spins a random remaining golfer for the active drafter.</div>
+      {slices === 0 ? (
+        <div className="text-center py-8 text-sm" style={{color:'var(--text-3)'}}>All golfers drafted.</div>
+      ) : (
+        <>
+          <div className="relative mx-auto" style={{maxWidth:'320px'}}>
+            <div className="absolute left-1/2 -translate-x-1/2 -top-1 z-10 pointer-events-none">
+              <svg width="28" height="36" viewBox="0 0 28 36">
+                <path d="M14 30 L2 6 L26 6 Z" fill="#f5b842" stroke="#451a03" strokeWidth="1.5"/>
+                <circle cx="14" cy="6" r="3.5" fill="#0a0e13" stroke="#f5b842" strokeWidth="2"/>
+              </svg>
+            </div>
+            <svg viewBox="0 0 300 300" className={spinning?'wheel-spin':'wheel-idle'} style={{transform:'rotate('+rotation+'deg)', display:'block', width:'100%', filter:'drop-shadow(0 8px 24px rgba(0,0,0,0.5))'}}>
+              {available.map((name,i) => {
+                const last = lastName(name);
+                const angle = i*slice + slice/2 - 90;
+                const fill = sliceColors[i % sliceColors.length];
+                // Radial text: writing direction runs from inner edge outward.
+                // Tangent space (arc length) gates legibility, so for crowded
+                // wheels we shrink font + push outward (more arc per slice).
+                const fontSize = slices>80 ? 4 : slices>50 ? 5 : slices>30 ? 6.5 : slices>20 ? 8 : slices>12 ? 10 : 12;
+                const maxLen  = slices>80 ? 5 : slices>50 ? 6 : slices>30 ? 7   : slices>20 ? 9 : slices>12 ? 11 : 13;
+                const textR   = slices>50 ? 0.82 : slices>20 ? 0.70 : 0.60;
+                const tx = cx + (radius*textR)*Math.cos(angle*Math.PI/180);
+                const ty = cy + (radius*textR)*Math.sin(angle*Math.PI/180);
+                // Keep letters upright on both halves of the wheel.
+                const normAngle = ((angle % 360) + 360) % 360;
+                const textRot = (normAngle > 90 && normAngle < 270) ? angle + 180 : angle;
+                return (
+                  <g key={name}>
+                    <path d={arcPath(i)} fill={fill} stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+                    <text x={tx} y={ty} fill="#ebe9e1" fontSize={fontSize} fontWeight="700" textAnchor="middle" dominantBaseline="middle" transform={'rotate('+textRot+' '+tx+' '+ty+')'}>{last.length>maxLen?last.slice(0,maxLen):last}</text>
+                  </g>
+                );
+              })}
+              <circle cx={cx} cy={cy} r="26" fill="#0a0e13" stroke="#4ade80" strokeWidth="2.5"/>
+              <circle cx={cx} cy={cy} r="6" fill="#f5b842"/>
+            </svg>
+          </div>
+          <div className="mt-4 grid gap-2">
+            <Button variant="accent" size="lg" onClick={handleSpin} disabled={spinning||slices===0} className="w-full">{spinning?'SPINNING…':'SPIN'}</Button>
+            {winner && !spinning && (
+              <div className="animate-fade-up rounded-xl p-4 relative overflow-hidden" style={{background:'linear-gradient(135deg, rgba(74,222,128,0.12) 0%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(20,26,35,0.95), rgba(15,19,25,0.95))', border:'1px solid rgba(74,222,128,0.40)', boxShadow:'0 0 32px rgba(74,222,128,0.18)'}}>
+                <div className="absolute top-0 left-0 right-0 h-px" style={{background:'linear-gradient(90deg, transparent 0%, rgba(74,222,128,0.7) 50%, transparent 100%)'}}/>
+                <div className="font-ticker text-[11px] flex items-center gap-1.5" style={{color:'var(--accent-green)'}}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-fairway-500 animate-pulse-soft"/> RESULT
+                </div>
+                <div className="font-headline text-3xl sm:text-4xl uppercase mt-1.5 leading-tight green-text">{winner}</div>
+                {currentDrafter ? (
+                  <div className="flex gap-2 mt-4">
+                    <Button variant="accent" onClick={assignWinner} className="flex-1">ASSIGN TO {currentDrafter.name.toUpperCase()}</Button>
+                    <Button variant="primary" onClick={() => setWinner(null)}>Re-spin</Button>
+                  </div>
+                ) : <div className="text-xs mt-2" style={{color:'var(--text-3)'}}>No drafter on the clock.</div>}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </Card>
+  );
+}
+
+// ============================================================================
+// MAJOR PAGE / TABS / VIEWS
+// ============================================================================
+
+function MajorHero({ major, ms, draftDone, isActiveMajor, onNav }) {
+  const t = major.theme || {};
+  return (
+    <section className={'hero-cinema theme-'+(t.key||'')}>
+      <div className="absolute -bottom-1 left-0 right-0 h-16 pointer-events-none" style={{background:'linear-gradient(180deg, transparent 0%, var(--bg-0) 100%)'}}/>
+      <div className="max-w-6xl mx-auto px-4 py-10 sm:py-14 relative">
+        <button onClick={() => onNav('home')} className="text-xs uppercase tracking-widest font-semibold flex items-center gap-1.5 transition" style={{color:'var(--text-2)'}}
+          onMouseEnter={(e)=> e.currentTarget.style.color='var(--text-1)'} onMouseLeave={(e)=> e.currentTarget.style.color='var(--text-2)'}>← ALL MAJORS</button>
+        <div className="flex items-end justify-between gap-4 mt-4 flex-wrap">
+          <div>
+            <div className="font-ticker text-[11px] mb-3 flex items-center gap-2.5" style={{color:'var(--theme-accent, #4ade80)'}}>
+              <span className="inline-block w-6 h-px" style={{background:'currentColor'}}/>{t.eyebrow}
+            </div>
+            <h1 className="font-headline text-5xl sm:text-7xl uppercase leading-[0.9] tracking-tight" style={{color:'var(--text-1)'}}>{major.name}</h1>
+            <div className="mt-4 text-sm flex flex-wrap items-center gap-x-3 gap-y-1" style={{color:'var(--text-2)'}}>
+              <span className="font-semibold" style={{color:'var(--text-1)'}}>{major.dates}</span>
+              <span style={{color:'var(--text-3)'}}>·</span><span>{major.course}</span>
+              <span style={{color:'var(--text-3)'}}>·</span><span>{major.location}</span>
+            </div>
+
+          </div>
+          <div className="flex items-center gap-2">
+            {ms.priorYear ? <Pill color="yellow">{ms.priorYear} RESULTS</Pill> : ms.isFinal ? <Pill color="dark">FINAL</Pill> : ms.oddsMode ? <Pill color="yellow">UPCOMING</Pill> : isActiveMajor && <Pill color="fairway"><span className="w-1.5 h-1.5 rounded-full bg-fairway-500 animate-pulse-soft inline-block"/>LIVE</Pill>}
+            <Pill color={draftDone?'fairway':'stone'}>{draftDone?'DRAFT COMPLETE':'DRAFT '+getDraftedNames(ms).size+'/'+(ms.poolMembers.length*ms.picksPerTeam)}</Pill>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MajorTabs({ majorId, tab, onNav, draftDone, draftedCount, totalPicks }) {
+  const tabs = [{ id:'live', label:'LIVE' }, { id:'draft', label:'DRAFT', meta: draftDone?'COMPLETE':(draftedCount+'/'+totalPicks) }];
+  return (
+    <div className="tabs-sticky">
+      <div className="max-w-6xl mx-auto px-4 flex items-center gap-1">
+        {tabs.map(t => {
+          const active = tab === t.id;
+          return (
+            <button key={t.id} onClick={() => onNav(majorId, t.id)} className="relative px-5 py-4 font-ticker text-sm transition" style={{color: active?'var(--accent-green)':'var(--text-2)', borderBottom:'2px solid '+(active?'var(--accent-green)':'transparent')}}>
+              <span>{t.label}</span>
+              {t.meta && <span className="ml-2 font-mono-num text-xs" style={{color: active?'var(--accent-green)':'var(--text-3)'}}>{t.meta}</span>}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function OnTheClockBanner({ drafter, ms }) {
+  return (
+    <div className="relative overflow-hidden rounded-xl glow-pulse" style={{background:'linear-gradient(135deg, rgba(74,222,128,0.10) 0%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(20,26,35,0.9), rgba(15,19,25,0.9))', border:'1px solid rgba(74,222,128,0.30)'}}>
+      <div className="absolute inset-0 dimples opacity-20 pointer-events-none"/>
+      <div className="absolute top-0 left-0 right-0 h-px" style={{background:'linear-gradient(90deg, transparent 0%, rgba(74,222,128,0.6) 50%, transparent 100%)'}}/>
+      <div className="relative px-5 py-5 flex items-center gap-5">
+        <div className="w-14 h-14 rounded-md grid place-items-center flex-shrink-0 font-headline text-2xl" style={{background:'linear-gradient(180deg,#4ade80 0%,#16a34a 100%)', color:'#06140d', boxShadow:'0 0 0 1px rgba(0,0,0,0.4) inset, 0 8px 22px rgba(74,222,128,0.30)'}}>{drafter.name[0]}</div>
+        <div className="flex-1 min-w-0">
+          <div className="font-ticker text-[11px] flex items-center gap-2" style={{color:'var(--accent-green)'}}>
+            <span className="w-1.5 h-1.5 rounded-full bg-fairway-500 animate-pulse-soft"/> ON THE CLOCK
+          </div>
+          <div className="font-headline text-3xl sm:text-5xl uppercase truncate leading-[0.95] mt-1" style={{color:'var(--text-1)'}}>{drafter.name}</div>
+        </div>
+        <div className="text-right flex-shrink-0">
+          <div className="font-mono-num text-4xl sm:text-5xl leading-none" style={{color:'var(--text-1)'}}>#{drafter.pickNumber}</div>
+          <div className="font-ticker text-[10px] mt-1" style={{color:'var(--text-2)'}}>RD {drafter.round} / {ms.picksPerTeam}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LiveView({ majorId, major, ms, scores, standings, dispatch, onNav }) {
+  const ownerOf = useMemo(() => getOwnerOf(ms), [ms]);
+  const noTeams = standings.every(t => !t.complete);
+  return (
+    <section className="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-6 animate-fade-up">
+      {ms.priorYear && (
+        <Card className="p-4" style={{background:'linear-gradient(135deg, rgba(245,184,66,0.10) 0%, rgba(0,0,0,0) 70%), var(--surface)', borderColor:'rgba(245,184,66,0.25)'}}>
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-md grid place-items-center flex-shrink-0" style={{background:'rgba(245,184,66,0.15)', color:'var(--accent-gold)'}}><FlagIcon className="w-4 h-4"/></div>
+            <div className="min-w-0">
+              <div className="font-ticker text-[11px]" style={{color:'var(--accent-gold)'}}>{ms.priorYear} RESULTS · LAST YEAR</div>
+              <div className="text-sm mt-0.5" style={{color:'var(--text-2)'}}>Showing {ms.priorYear} final results for reference. The 2026 tournament hasn't been scheduled into the pool yet.</div>
+            </div>
+          </div>
+        </Card>
+      )}
+      <StatsStrip majorId={majorId} ms={ms} standings={standings} scores={scores} dispatch={dispatch}/>
+      {ms.oddsMode && (
+        <Card className="p-5" style={{background:'linear-gradient(135deg, rgba(245,184,66,0.08) 0%, rgba(0,0,0,0) 70%), var(--surface)', borderColor:'rgba(245,184,66,0.20)'}}>
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-md grid place-items-center flex-shrink-0" style={{background:'rgba(245,184,66,0.15)', color:'var(--accent-gold)'}}><FlagIcon className="w-5 h-5"/></div>
+            <div className="min-w-0">
+              <div className="font-headline text-lg uppercase" style={{color:'var(--text-1)'}}>Pre-tournament</div>
+              <div className="text-sm mt-0.5" style={{color:'var(--text-2)'}}>Tee off Thursday, May 14. Draft opens whenever you start it.</div>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <Button size="sm" variant="accent" onClick={() => onNav(majorId, 'draft')}>OPEN DRAFT →</Button>
+                {ms.oddsSource && <a href={ms.oddsSource.url} target="_blank" rel="noopener" className="btn-base btn-primary px-3 py-1.5 text-xs">SOURCE: {ms.oddsSource.name.toUpperCase()} ↗</a>}
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+      {!ms.oddsMode && noTeams && (
+        <Card className="p-5">
+          <div className="text-sm" style={{color:'var(--text-2)'}}>Draft is still open. Pool standings populate when teams are complete.</div>
+          <div className="mt-2"><Button size="sm" onClick={() => onNav(majorId,'draft')}>Go to draft →</Button></div>
+        </Card>
+      )}
+      <div className="grid lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-3 space-y-2">
+          <SectionHeader title={ms.oddsMode?'POOL DRAFT PREVIEW':'POOL STANDINGS'} subtitle={ms.oddsMode?'Members are pre-draft':'Sum of best 4 picks · lowest wins'}/>
+          <PoolLeaderboard standings={standings} compact={false}/>
+        </div>
+        <div className="lg:col-span-2 space-y-2">
+          <SectionHeader title={ms.oddsMode?'FANDUEL ODDS BOARD':'TOURNAMENT LEADERBOARD'} subtitle={ms.oddsMode?'Outright winner · sorted by implied probability':'Live field · drafted golfers highlighted'}/>
+          <TournamentLeaderboard scores={scores} ownerOf={ownerOf} oddsMode={ms.oddsMode}/>
+          <Card className="p-4 mt-3">
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-ticker" style={{color:'var(--text-2)'}}>{ms.priorYear?(ms.priorYear+' RESULTS'):ms.isFinal?'FINAL RESULTS':ms.oddsMode?'PRE-TOURNAMENT ODDS':'LIVE SCORES'}</span>
+              <span className="font-mono-num" style={{color:'var(--text-3)'}}>{ms.priorYear?new Date(ms.lastUpdated).toLocaleDateString([], {month:'short', day:'numeric', year:'numeric'}).toUpperCase():ms.isFinal?'APR 12, 2026':ms.oddsMode?'MAY 9, 2026':'UPDATED '+new Date(ms.lastUpdated).toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}</span>
+            </div>
+            <div className="mt-2 text-[11px]" style={{color:'var(--text-3)'}}>
+              {ms.priorYear ? ms.priorYear+' final results · last year, shown for reference.' : ms.isFinal?'Final results.' : ms.oddsMode?'FanDuel outright winner odds, retrieved May 9, 2026.':'Mock scores until live data is wired in.'}
+            </div>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DraftView({ majorId, ms, scores, available, currentDrafter, draftDone, dispatch, onNav }) {
+  function pickGolfer(name) { if (!currentDrafter) return; dispatch({type:'PICK', majorId, member:currentDrafter.name, golfer:name}); }
+  function undoPick(member, name) { dispatch({type:'UNPICK', majorId, member, golfer:name}); }
+  function assignFromWheel(member, golfer) { dispatch({type:'PICK', majorId, member, golfer, force:true}); }
+  function resetDraft() { if (window.confirm('Reset all picks for this tournament?')) dispatch({type:'RESET_DRAFT', majorId}); }
+  if (draftDone) {
+    return (
+      <section className="max-w-3xl mx-auto px-4 py-12 sm:py-20 animate-fade-up">
+        <Card className="p-8 sm:p-12 text-center" style={{background:'linear-gradient(135deg, rgba(74,222,128,0.08) 0%, rgba(0,0,0,0) 70%), var(--surface)'}}>
+          <div className="w-14 h-14 mx-auto mb-4 rounded-md grid place-items-center" style={{background:'linear-gradient(180deg,#4ade80 0%,#16a34a 100%)', color:'#06140d', boxShadow:'0 0 24px rgba(74,222,128,0.30)'}}><TrophyIcon className="w-7 h-7"/></div>
+          <div className="font-ticker text-[11px]" style={{color:'var(--accent-green)'}}>DRAFT</div>
+          <h2 className="font-headline text-3xl sm:text-5xl uppercase mt-2" style={{color:'var(--text-1)'}}>Complete</h2>
+          <p className="mt-3 max-w-md mx-auto" style={{color:'var(--text-2)'}}>All picks are in. Switch to Live to track scores.</p>
+          <div className="flex justify-center gap-2 mt-6 flex-wrap">
+            <Button variant="accent" onClick={() => onNav(majorId, 'live')}>VIEW LIVE STANDINGS →</Button>
+            <Button variant="primary" onClick={resetDraft}>Reset draft</Button>
+          </div>
+        </Card>
+        <div className="mt-8">
+          <SectionHeader title="DRAFTED TEAMS"/>
+          <DraftedTeams majorState={ms} scores={scores} onUndo={undoPick}/>
+        </div>
+      </section>
+    );
+  }
+  const draftStarted = Object.values(ms.drafts || {}).some(p => p && p.length > 0);
+  return (
+    <section className="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-6 animate-fade-up">
+      {currentDrafter && <OnTheClockBanner drafter={currentDrafter} ms={ms}/>}
+      <div className="grid lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-3 space-y-6">
+          <DraftOrderEditor majorState={ms} majorId={majorId} dispatch={dispatch} draftStarted={draftStarted}/>
+          <AvailableGolfersList available={available} scores={scores} onPick={pickGolfer} currentDrafter={currentDrafter} disabled={!currentDrafter}/>
+        </div>
+        <div className="lg:col-span-2 space-y-6">
+          <DraftedTeams majorState={ms} scores={scores} onUndo={undoPick}/>
+          <RandomizerWheel available={available} currentDrafter={currentDrafter} onAssign={assignFromWheel}/>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function DraftOrderEditor({ majorState, majorId, dispatch, draftStarted }) {
+  const order = majorState.draftOrder || [];
+  const drafts = majorState.drafts || {};
+  function move(name, dir) { dispatch({ type:'MOVE_DRAFTER', majorId, name, direction: dir }); }
+  function shuffle() {
+    if (draftStarted && !window.confirm('Picks have already been made. Shuffle the order anyway?')) return;
+    dispatch({ type:'SHUFFLE_DRAFT_ORDER', majorId });
+  }
+  function alpha() {
+    const sorted = [...majorState.poolMembers].sort((a,b) => a.localeCompare(b));
+    if (draftStarted && !window.confirm('Picks have already been made. Reset to A→Z anyway?')) return;
+    dispatch({ type:'SET_DRAFT_ORDER', majorId, order: sorted });
+  }
+  return (
+    <Card className="p-4">
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <div>
+          <div className="font-ticker text-[11px]" style={{color:'var(--text-3)'}}>PICK SEQUENCE</div>
+          <h3 className="font-headline text-xl uppercase leading-tight" style={{color:'var(--text-1)'}}>Draft Order</h3>
+        </div>
+        <div className="flex gap-2">
+          <Button size="sm" onClick={shuffle}>SHUFFLE</Button>
+          <Button size="sm" variant="ghost" onClick={alpha}>A→Z</Button>
+        </div>
+      </div>
+      <div className="space-y-1.5 max-h-[420px] overflow-y-auto pr-1">
+        {order.map((name, i) => {
+          const picksMade = (drafts[name] || []).length;
+          return (
+            <div key={name} className="flex items-center gap-2 px-3 py-2 rounded-md" style={{background:'rgba(255,255,255,0.025)', border:'1px solid var(--border)'}}>
+              <span className="font-mono-num text-sm w-7 text-right tabular-nums" style={{color:'var(--text-3)'}}>{i+1}</span>
+              <div className="w-7 h-7 rounded-md grid place-items-center text-white text-xs font-semibold flex-shrink-0" style={{background: avatarColor(name), boxShadow:'0 0 0 1px rgba(255,255,255,0.06)'}}>{name[0]}</div>
+              <span className="flex-1 font-medium text-sm truncate" style={{color:'var(--text-1)'}}>{name}</span>
+              <span className="font-mono-num text-[11px]" style={{color:'var(--text-3)'}}>{picksMade}/{majorState.picksPerTeam}</span>
+              <div className="flex gap-1">
+                <button onClick={() => move(name,'up')} disabled={i===0} className="px-2.5 py-1 rounded text-xs disabled:opacity-25 transition" style={{color:'var(--text-1)', background:'rgba(255,255,255,0.05)', border:'1px solid var(--border)'}} title="Move up">↑</button>
+                <button onClick={() => move(name,'down')} disabled={i===order.length-1} className="px-2.5 py-1 rounded text-xs disabled:opacity-25 transition" style={{color:'var(--text-1)', background:'rgba(255,255,255,0.05)', border:'1px solid var(--border)'}} title="Move down">↓</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div className="mt-3 text-[11px]" style={{color:'var(--text-3)'}}>Pick #1 drafts first. Order snakes back through every round.</div>
+    </Card>
+  );
+}
+
+function MajorPage({ majorId, subTab, state, scores, dispatch, onNav }) {
+  const major = MAJORS.find(m => m.id === majorId);
+  const ms = state.majorsState[majorId];
+  const golferScores = scores[majorId] || {};
+  const available = useMemo(() => getAvailableGolfers(ms), [ms]);
+  const currentDrafter = useMemo(() => getCurrentDrafter(ms), [ms]);
+  const standings = useMemo(() => computeStandings(ms, golferScores), [ms, golferScores]);
+  const draftDone = isDraftComplete(ms);
+  const isActive = state.activeMajorId === majorId;
+  const draftedCount = getDraftedNames(ms).size;
+  const totalPicks = ms.poolMembers.length * ms.picksPerTeam;
+  const tab = subTab === 'draft' ? 'draft' : 'live';
+  return (
+    <main>
+      <MajorHero major={major} ms={ms} draftDone={draftDone} isActiveMajor={isActive} onNav={onNav}/>
+      <MajorTabs majorId={majorId} tab={tab} onNav={onNav} draftDone={draftDone} draftedCount={draftedCount} totalPicks={totalPicks}/>
+      {tab === 'live' ? <LiveView majorId={majorId} major={major} ms={ms} scores={golferScores} standings={standings} dispatch={dispatch} onNav={onNav}/> : <DraftView majorId={majorId} ms={ms} scores={golferScores} available={available} currentDrafter={currentDrafter} draftDone={draftDone} dispatch={dispatch} onNav={onNav}/>}
+    </main>
+  );
+}
+
+// ============================================================================
+// ADMIN
+// ============================================================================
+
+function AdminPanel({ state, dispatch, onNav }) {
+  const [newMember, setNewMember] = useState('');
+  const [selMajor, setSelMajor] = useState(state.activeMajorId);
+  const [manualGolfer, setManualGolfer] = useState(FIELD[0]);
+  const ms = state.majorsState[selMajor];
+  const [manualMember, setManualMember] = useState(ms.poolMembers[0] || '');
+  useEffect(() => { if (!ms.poolMembers.includes(manualMember)) setManualMember(ms.poolMembers[0]||''); }, [selMajor, ms.poolMembers]);
+  function addMember() { const n = newMember.trim(); if (!n) return; dispatch({type:'ADD_MEMBER', name:n}); setNewMember(''); }
+  function removeMember(name) { if (!window.confirm('Remove '+name+'?')) return; dispatch({type:'REMOVE_MEMBER', name}); }
+  function resetDraft() { if (!window.confirm('Reset draft for '+MAJORS.find(m=>m.id===selMajor).name+'?')) return; dispatch({type:'RESET_DRAFT', majorId:selMajor}); }
+  function manualAssign() { if (!manualMember) return; dispatch({type:'PICK', majorId:selMajor, member:manualMember, golfer:manualGolfer, force:true}); }
+  function setActive() { dispatch({type:'SET_ACTIVE_MAJOR', majorId:selMajor}); }
+  function simulate() { dispatch({type:'SIMULATE_UPDATE', majorId:selMajor}); }
+  function resetAll() { if (!window.confirm('Reset ALL data?')) return; dispatch({type:'RESET_ALL'}); }
+  function exportData() { const data = JSON.stringify(state, null, 2); const blob = new Blob([data], {type:'application/json'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'pool-backup.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
+  return (
+    <main className="animate-fade-up max-w-6xl mx-auto px-4 py-8 sm:py-12">
+      <div className="mb-6">
+        <div className="font-ticker text-[11px]" style={{color:'var(--text-3)'}}>POOL ADMIN</div>
+        <h1 className="font-headline text-4xl uppercase mt-1" style={{color:'var(--text-1)'}}>Controls</h1>
+        <p className="text-sm mt-1" style={{color:'var(--text-2)'}}>Manage members, drafts, and scoring across all four majors.</p>
+      </div>
+      <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+        <Card className="p-4">
+          <h3 className="font-headline text-xl uppercase mb-3" style={{color:'var(--text-1)'}}>Pool Members</h3>
+          <div className="space-y-2">
+            {ms.poolMembers.map(m => (
+              <div key={m} className="flex items-center justify-between px-3 py-2 rounded-md" style={{border:'1px solid var(--border)'}}>
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="w-7 h-7 rounded-md grid place-items-center text-white text-xs font-semibold flex-shrink-0" style={{background:avatarColor(m)}}>{m[0]}</div>
+                  <span className="font-medium text-sm truncate" style={{color:'var(--text-1)'}}>{m}</span>
+                </div>
+                <button onClick={() => removeMember(m)} className="text-xs font-semibold flex-shrink-0 transition" style={{color:'var(--score-bad)'}}>Remove</button>
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 flex gap-2">
+            <input value={newMember} onChange={e=>setNewMember(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addMember()} placeholder="New member name" className="flex-1"/>
+            <Button onClick={addMember}>Add</Button>
+          </div>
+        </Card>
+        <Card className="p-4">
+          <h3 className="font-headline text-xl uppercase mb-3" style={{color:'var(--text-1)'}}>Tournament</h3>
+          <label className="font-ticker text-[10px] block mb-1.5" style={{color:'var(--text-3)'}}>SELECT</label>
+          <select value={selMajor} onChange={e => setSelMajor(e.target.value)} className="w-full">
+            {MAJORS.map(m => <option key={m.id} value={m.id}>{m.name}</option>)}
+          </select>
+          <div className="grid grid-cols-2 gap-2 mt-4">
+            <Button variant={state.activeMajorId===selMajor?'accent':'primary'} onClick={setActive}>{state.activeMajorId===selMajor?'★ ACTIVE':'Mark active'}</Button>
+            <Button onClick={simulate}>↻ Simulate update</Button>
+            <Button variant="danger" onClick={resetDraft}>Reset draft</Button>
+            <Button onClick={() => onNav(selMajor)}>Open page →</Button>
+          </div>
+        </Card>
+        <Card className="p-4">
+          <h3 className="font-headline text-xl uppercase mb-3" style={{color:'var(--text-1)'}}>Manual Assign</h3>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="font-ticker text-[10px] block mb-1.5" style={{color:'var(--text-3)'}}>MEMBER</label>
+              <select value={manualMember} onChange={e=>setManualMember(e.target.value)} className="w-full">{ms.poolMembers.map(m=><option key={m} value={m}>{m}</option>)}</select>
+            </div>
+            <div>
+              <label className="font-ticker text-[10px] block mb-1.5" style={{color:'var(--text-3)'}}>GOLFER</label>
+              <select value={manualGolfer} onChange={e=>setManualGolfer(e.target.value)} className="w-full">{FIELD.map(g=><option key={g} value={g}>{g}</option>)}</select>
+            </div>
+          </div>
+          <Button onClick={manualAssign} className="mt-3" disabled={!manualMember}>Force assign</Button>
+        </Card>
+        <Card className="p-4 md:col-span-2">
+          <h3 className="font-headline text-xl uppercase mb-3" style={{color:'var(--text-1)'}}>Data</h3>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={exportData}>Download backup</Button>
+            <Button variant="danger" onClick={resetAll}>Reset all data</Button>
+          </div>
+          <div className="text-[11px] mt-2" style={{color:'var(--text-3)'}}>State saved to localStorage under {STORAGE_KEY}.</div>
+        </Card>
+      </div>
+    </main>
+  );
+}
+
+// ============================================================================
+// APP ROOT
+// ============================================================================
+
+function parseHash() {
+  const h = (window.location.hash || '').replace(/^#\/?/, '');
+  if (!h) return { page:'home', subTab:null };
+  const parts = h.split('/').filter(Boolean);
+  if (parts[0] === 'admin' || parts[0] === 'home') return { page:parts[0], subTab:null };
+  if (MAJORS.find(m => m.id === parts[0])) return { page:parts[0], subTab: parts[1]==='draft'?'draft':'live' };
+  return { page:'home', subTab:null };
+}
+
+function App() {
+  const [state, setState] = useState(() => readStore() || defaultAppState());
+  const [route, setRoute] = useState(parseHash);
+  const [scores, setScores] = useState({});
+  useEffect(() => { writeStore(state); }, [state]);
+  useEffect(() => { const onHash = () => setRoute(parseHash()); window.addEventListener('hashchange', onHash); return () => window.removeEventListener('hashchange', onHash); }, []);
+  const dispatch = useCallback(action => setState(prev => appReducer(prev, action)), []);
+  function nav(page, subTab) {
+    let hash = '';
+    if (page === 'home') hash = '';
+    else if (page === 'admin') hash = '/admin';
+    else if (MAJORS.find(m=>m.id===page)) hash = '/'+page+(subTab?'/'+subTab:'');
+    setRoute({ page, subTab: subTab || (MAJORS.find(m=>m.id===page)?'live':null) });
+    window.location.hash = hash;
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+  const seedFp = MAJORS.map(m => state.majorsState[m.id].scoreSeed).join(',');
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const next = {};
+      for (const m of MAJORS) next[m.id] = await scoresApi.fetchScores(m.id, state.majorsState[m.id].scoreSeed);
+      if (!cancelled) setScores(next);
+    })();
+    return () => { cancelled = true; };
+  }, [seedFp]);
+  const { page, subTab } = route;
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar page={page} onNav={nav} activeMajorId={state.activeMajorId}/>
+      <div className="flex-1">
+        {page === 'home' && <HomePage state={state} scores={scores} onNav={nav}/>}
+        {page === 'admin' && <AdminPanel state={state} dispatch={dispatch} onNav={nav}/>}
+        {MAJORS.find(m=>m.id===page) && <MajorPage majorId={page} subTab={subTab} state={state} scores={scores} dispatch={dispatch} onNav={nav}/>}
+      </div>
+      <footer style={{borderTop:'1px solid var(--border)', background:'rgba(0,0,0,0.3)'}}>
+        <div className="max-w-6xl mx-auto px-4 py-6 text-xs flex flex-wrap items-center justify-between gap-2 font-ticker" style={{color:'var(--text-3)'}}>
+          <div>MAJOR POOL · 2026 SEASON</div>
+          <div>14 MEMBERS · 4 MAJORS · BEST 4 OF 5</div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>
